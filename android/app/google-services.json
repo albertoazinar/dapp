@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "252005392436",
+    "firebase_url": "https://despensa-1bed3.firebaseio.com",
+    "project_id": "despensa-1bed3",
+    "storage_bucket": "despensa-1bed3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252005392436:android:dd90d8b52e6bbb8b83aa61",
+        "android_client_info": {
+          "package_name": "com.lsambo02.despensa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "252005392436-l9us5jesbkvalo82lj2hb2f4bttt4df8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lsambo02.despensa",
+            "certificate_hash": "165ce757bb619c0a8f42acd515a828af72df994e"
+          }
+        },
+        {
+          "client_id": "252005392436-homr1iiq1j5fqkh4g30uvf8pr8hff35l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXP33lUnwG_PjE2sxN8gwgrWQZvorj1aM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "252005392436-homr1iiq1j5fqkh4g30uvf8pr8hff35l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "252005392436-hquplpj0i8abl5jea8chvfp535v48d0d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lsambo02.despensa"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
