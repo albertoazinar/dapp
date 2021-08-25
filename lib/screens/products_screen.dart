@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:despensa/models/Produto.dart';
 import 'package:despensa/screens/single_product_screen.dart';
-import 'package:despensa/services/auth_service.dart';
+import 'package:despensa/services/familia_service.dart';
 import 'package:despensa/services/prateleira_service.dart';
 import 'package:despensa/services/produto_service.dart';
 import 'package:despensa/utils/AppPhoneSize.dart';
@@ -38,8 +38,8 @@ class _ProductsPageState extends State<ProductsPage> {
             Container(
                 height: heightScreen(context),
                 child: StreamBuilder(
-                    stream: produtosService.users
-                        .doc(getIt<AuthService>().userId)
+                    stream: produtosService.familias
+                        .doc(getIt<FamiliaService>().familiaId)
                         .collection(prateleiras_colecao)
                         .doc(getIt<PrateleiraService>()
                             .prateleirasMap[args.toString()])

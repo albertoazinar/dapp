@@ -1,15 +1,18 @@
+import 'package:despensa/models/Familia.dart';
 import 'package:despensa/services/auth_service.dart';
+import 'package:despensa/services/familia_service.dart';
+import 'package:despensa/utils/AppPhoneSize.dart';
 import 'package:despensa/utils/GetIt.dart';
 import 'package:despensa/utils/constantes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 
-class LoginScreen extends StatefulWidget {
+class CreateFamilyScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _CreateFamilyScreenState createState() => _CreateFamilyScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _CreateFamilyScreenState extends State<CreateFamilyScreen> {
+  Familia familia = Familia.empty();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,14 +42,18 @@ class _LoginScreenState extends State<LoginScreen> {
               //         ),
               //       ),
               //     ),
-              //     Container(
-              //       margin: EdgeInsets.only(top: 10),
-              //       width: textfieldWidth,
-              //       child: TextFormField(
-              //         decoration: InputDecoration(
-              //             border: OutlineInputBorder(), labelText: "Password"),
-              //       ),
-              //     ),
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                width: widthScreen(context) / 1.2,
+                child: TextFormField(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Nome da Família"),
+                  onChanged: (value) {
+                    familia.setNome(value);
+                  },
+                ),
+              ),
               //   ],
               // )),
               // SizedBox(
@@ -67,27 +74,36 @@ class _LoginScreenState extends State<LoginScreen> {
               // ),
               // Text("OR"),
               Container(
-                width: 200,
-                margin: EdgeInsets.only(top: 15),
-                child: SignInButton(
-                  Buttons.Google,
-                  onPressed: () => getIt<AuthService>()
-                      .signInWithGoogle()
-                      .whenComplete(() {})
-                      .then((value) {
-                    print(value);
-                    setState(() {
-                      // _isLoadingGSignIn = false;
-                      // _isDoneSignIn = true;
-                      // _message = value;
+                width: 150,
+                margin: EdgeInsets.only(bottom: 15),
+                child: ElevatedButton(
+                  child: Text(
+                    'CRIAR',
+                    style: TextStyle(color: Colors.blueGrey[400]),
+                  ),
+                  onPressed: () {
+                    familia.setOwner(getIt<AuthService>().userId);
+
+                    getIt<FamiliaService>()
+                        .addFamily(familia)
+                        .whenComplete(() {})
+                        .then((value) {
+                      print(value);
+                      setState(() {
+                        // _isLoadingGSignIn = false;
+                        // _isDoneSignIn = true;
+                        // _message = value;
+                      });
+                      Navigator.pushReplacementNamed(context, dashboard_screen);
                     });
-                    Navigator.pushNamed(context, family_screen);
-                  }),
-                  text: 'ENTRAR COM GOOGLE',
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
+                  },
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10))),
+                  ),
                 ),
-              ),
+              )
             ],
           ),
         ),

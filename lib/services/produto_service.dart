@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:despensa/models/Produto.dart';
-import 'package:despensa/services/auth_service.dart';
+import 'package:despensa/services/familia_service.dart';
 import 'package:despensa/utils/GetIt.dart';
 import 'package:despensa/utils/common_services.dart';
 import 'package:despensa/utils/constantes.dart';
+
+import 'prateleira_service.dart';
 
 class ProdutosServices {
   String prateleira;
@@ -11,7 +13,8 @@ class ProdutosServices {
   ProdutosServices(this.prateleira);
 
   //instanciar a coleção
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  CollectionReference familias =
+      FirebaseFirestore.instance.collection(familias_colecao);
   CollectionReference produtos =
       FirebaseFirestore.instance.collection(produtos_colecao);
 
@@ -25,8 +28,8 @@ class ProdutosServices {
 
     if (_alreadyExists)
       return Future(() => "Produto já adicionado a esta prateleira");
-    return users
-        .doc(getIt<AuthService>().userId)
+    return familias
+        .doc(getIt<FamiliaService>().familiaId)
         .collection(prateleiras_colecao)
         .doc(prateleira)
         .collection(produtos_colecao)
@@ -39,8 +42,8 @@ class ProdutosServices {
   Future<QuerySnapshot> queryCollection(queryString) async {
     //retorna o snapshot equivalente aos objectos json onde
     // o nome é igual ao passado como argumento
-    return await users
-        .doc(getIt<AuthService>().userId)
+    return await familias
+        .doc(getIt<FamiliaService>().familiaId)
         .collection(prateleiras_colecao)
         .doc(prateleira)
         .collection(produtos_colecao)
@@ -51,8 +54,8 @@ class ProdutosServices {
   Future updatePrateleira(nome, novaPrateleira) {
     //com base na coleção pegamos todos os dados que nela existem, que retorna
     //QuerySnapshot e usando o mesmo para iterar pelos documentos dentro dele
-    return users
-        .doc(getIt<AuthService>().userId)
+    return familias
+        .doc(getIt<FamiliaService>().familiaId)
         .collection(prateleiras_colecao)
         .doc(prateleira)
         .collection(produtos_colecao)
@@ -61,8 +64,8 @@ class ProdutosServices {
       querySnapshot.docs.forEach((doc) {
         //verificar se o dcumento tem como atributo nome igual ao pretendido alterar
         if (doc['nome'] == nome) {
-          users
-              .doc(getIt<AuthService>().userId)
+          familias
+              .doc(getIt<FamiliaService>().familiaId)
               .collection(prateleiras_colecao)
               .doc(prateleira)
               .collection(produtos_colecao)
@@ -79,8 +82,8 @@ class ProdutosServices {
   Future update(Produto produto) {
     //com base na coleção pegamos todos os dados que nela existem, que retorna
     //QuerySnapshot e usando o mesmo para iterar pelos documentos dentro dele
-    return users
-        .doc(getIt<AuthService>().userId)
+    return familias
+        .doc(getIt<FamiliaService>().familiaId)
         .collection(prateleiras_colecao)
         .doc(prateleira)
         .collection(produtos_colecao)
@@ -89,8 +92,8 @@ class ProdutosServices {
       querySnapshot.docs.forEach((doc) {
         //verificar se o dcumento tem como atributo nome igual ao pretendido alterar
         if (doc['nome'] == produto.nome) {
-          users
-              .doc(getIt<AuthService>().userId)
+          familias
+              .doc(getIt<FamiliaService>().familiaId)
               .collection(prateleiras_colecao)
               .doc(prateleira)
               .collection(produtos_colecao)
@@ -107,20 +110,22 @@ class ProdutosServices {
   Future updateQuantidade(nome, novaQuantidade) {
     //com base na coleção pegamos todos os dados que nela existem, que retorna
     //QuerySnapshot e usando o mesmo para iterar pelos documentos dentro dele
-    return users
-        .doc(getIt<AuthService>().userId)
+    String _prateleiraId =
+        getIt<PrateleiraService>().prateleirasMap[prateleira];
+    return familias
+        .doc(getIt<FamiliaService>().familiaId)
         .collection(prateleiras_colecao)
-        .doc(prateleira)
+        .doc(_prateleiraId)
         .collection(produtos_colecao)
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        //verificar se o dcumento tem como atributo nome igual ao pretendido alterar
+      print(querySnapshot.docs);
+      return querySnapshot.docs.forEach((doc) {
         if (doc['nome'] == nome) {
-          users
-              .doc(getIt<AuthService>().userId)
+          return familias
+              .doc(getIt<FamiliaService>().familiaId)
               .collection(prateleiras_colecao)
-              .doc(prateleira)
+              .doc(_prateleiraId)
               .collection(produtos_colecao)
               .doc(doc.id) //pegar o id do documento que se pretende actualizar
               .update({'disponivel': novaQuantidade})

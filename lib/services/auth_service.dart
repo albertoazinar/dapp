@@ -1,3 +1,5 @@
+import 'package:despensa/models/User.dart';
+import 'package:despensa/services/familia_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -6,7 +8,7 @@ class AuthService with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
   String message = '';
   String _userId;
-  User _user;
+  Utilizador _utilizador;
 
   Future register(String email, String password) async {
     try {
@@ -72,8 +74,10 @@ class AuthService with ChangeNotifier {
           .signInWithCredential(credential)
           .whenComplete(() {})
           .then((value) {
+        FamiliaService familiaService = FamiliaService();
+
         _userId = value.user.uid;
-        _user = value.user;
+        familiaService.createUser(_userId);
         print(_userId);
         message = 'Login Efectuado com Sucesso\nParabéns, ganhou acesso à Dapp';
         notifyListeners();
@@ -85,11 +89,15 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  String get userId => _userId;
-  User get user => _user;
+  String get userId => auth.currentUser.uid;
+  User get user => auth.currentUser;
 
   bool isEmailVerified() {
     User user = auth.currentUser;
     return user.emailVerified;
+  }
+
+  void signOut() {
+    auth.signOut();
   }
 }

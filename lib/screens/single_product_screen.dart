@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:despensa/models/Produto.dart';
+import 'package:despensa/services/produto_service.dart';
 import 'package:despensa/utils/AppPhoneSize.dart';
 import 'package:despensa/widgets/custom_appBar.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                   margin: EdgeInsets.all(15),
                   width: widthScreen(context) / 1.5,
                   child: Text(
-                    '',
+                    widget.produto.descricao,
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                         fontSize: 15,
@@ -94,7 +95,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                 animation: true,
                 lineHeight: 20.0,
                 animationDuration: 3000,
-                percent: percent / 100,
+                percent: (percent / 100),
                 animateFromLastPercent: true,
                 center: Text("$percent%"),
                 linearStrokeCap: LinearStrokeCap.roundAll,
@@ -131,6 +132,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                           var newQntd = widget.produto.disponivel - 1;
                           setState(() {
                             _isToggled = true;
+                            widget.produto.setDisponivel(newQntd);
                             if (percent > 0) {
                               widget.produto.setDisponivel(newQntd);
                               calcPercent();
@@ -158,8 +160,8 @@ class _SingleProductPageState extends State<SingleProductPage> {
                           var newQntd = widget.produto.disponivel + 1;
                           setState(() {
                             _isToggled = true;
-
-                            if (percent < 1) {
+                            widget.produto.setDisponivel(newQntd);
+                            if (percent < 100) {
                               widget.produto.setDisponivel(newQntd);
                               calcPercent();
                             }
@@ -185,7 +187,16 @@ class _SingleProductPageState extends State<SingleProductPage> {
                 'Actualizar',
                 style: TextStyle(color: Colors.black),
               ),
-              onPressed: () {},
+              onPressed: () {
+                ProdutosServices produtosServices =
+                    ProdutosServices(widget.produto.prateleira);
+                produtosServices
+                    .updateQuantidade(
+                        widget.produto.nome, widget.produto.disponivel)
+                    .then((value) {
+                  print(value);
+                });
+              },
             )
           : null,
     );
@@ -194,6 +205,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
   calcPercent() {
     setState(() {
       percent = (widget.produto.disponivel * 100) / widget.produto.quantidade;
+      percent = percent.round().toDouble();
     });
   }
 }

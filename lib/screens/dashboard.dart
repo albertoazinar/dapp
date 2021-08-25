@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:despensa/models/Prateleira.dart';
 import 'package:despensa/screens/add_product_screen.dart';
 import 'package:despensa/services/auth_service.dart';
+import 'package:despensa/services/familia_service.dart';
 import 'package:despensa/services/prateleira_service.dart';
 import 'package:despensa/utils/AppPhoneSize.dart';
 import 'package:despensa/utils/GetIt.dart';
 import 'package:despensa/utils/app_colors.dart';
 import 'package:despensa/utils/constantes.dart';
+import 'package:despensa/utils/sharedPreferences.dart';
 import 'package:despensa/widgets/add_shelve_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:speed_dial_fab/speed_dial_fab.dart';
@@ -21,15 +23,32 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> with ChangeNotifier {
   PrateleiraService prateleiraService = PrateleiraService();
   Map<String, dynamic> _prateleirasMap = Map<String, dynamic>();
+  String familyName;
+
+  @override
+  void initState() {
+    getIt<UserState>().readFamilyId().then((value) {
+      if (value != null) getIt<FamiliaService>().setFamiliaId(value);
+      getIt<FamiliaService>().getFamilyName(value).then((value) {
+        setState(() {
+          familyName = value;
+        });
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 20, top: 20.0),
-                height: heightScreen(context) / 3,
+                padding:
+                    EdgeInsets.only(left: 20, top: 30.0, right: 20, bottom: 0),
+                margin: EdgeInsets.all(0),
+                height: heightScreen(context) / 5,
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
                   colors: shadesOfGrey,
@@ -42,16 +61,22 @@ class _DashboardState extends State<Dashboard> with ChangeNotifier {
                 child: Stack(
                   alignment: Alignment.topRight,
                   children: [
-                    IconButton(icon: Icon(Icons.settings), onPressed: () {}),
+                    IconButton(
+                        icon: Icon(Icons.settings),
+                        onPressed: () {
+                          getIt<AuthService>().signOut();
+                          Navigator.pushReplacementNamed(context, login_screen);
+                          dispose();
+                        }),
                     Padding(
-                      padding: const EdgeInsets.all(50.0),
+                      padding: const EdgeInsets.only(top: 50.0, left: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
                               Container(
-                                margin: EdgeInsets.all(10),
+                                margin: EdgeInsets.only(right: 10),
                                 child: ClipOval(
                                   child: Image.network(
                                     getIt<AuthService>().user.photoURL,
@@ -61,14 +86,17 @@ class _DashboardState extends State<Dashboard> with ChangeNotifier {
                                   ),
                                 ),
                               ),
-                              Text(
-                                "Hello, ${getIt<AuthService>().user.displayName}",
-                                style: TextStyle(fontSize: 25),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Olá, ${getIt<AuthService>().user.displayName}",
+                                    style: TextStyle(fontSize: 25),
+                                  ),
+                                  Text("Família $familyName"),
+                                ],
                               ),
                             ],
-                          ),
-                          Row(
-                            children: [],
                           ),
                         ],
                       ),
@@ -77,10 +105,11 @@ class _DashboardState extends State<Dashboard> with ChangeNotifier {
                 ),
               ),
               Container(
-                height: heightScreen(context) / 2,
+                height: heightScreen(context) / 1.2,
+                margin: EdgeInsets.all(0),
                 child: StreamBuilder<QuerySnapshot>(
-                  stream: prateleiraService.users
-                      .doc(getIt<AuthService>().userId)
+                  stream: prateleiraService.familias
+                      .doc(getIt<FamiliaService>().familiaId)
                       .collection('prateleiras')
                       .snapshots(),
                   builder: (BuildContext context,

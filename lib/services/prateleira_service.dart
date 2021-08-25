@@ -1,21 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:despensa/models/Prateleira.dart';
 import 'package:despensa/services/auth_service.dart';
+import 'package:despensa/services/familia_service.dart';
 import 'package:despensa/utils/GetIt.dart';
 import 'package:despensa/utils/common_services.dart';
 import 'package:despensa/utils/constantes.dart';
 import 'package:flutter/cupertino.dart';
 
 class PrateleiraService with ChangeNotifier {
-  //instanciar a coleção
+  PrateleiraService();
 
-  // AuthService authService = AuthService();
-  CollectionReference users = FirebaseFirestore.instance.collection("users");
+  CollectionReference familias =
+      FirebaseFirestore.instance.collection(familias_colecao);
   CollectionReference prateleiras =
       FirebaseFirestore.instance.collection("prateleiras");
 
   //funcao lambda pra permitir acesso a coleção de outras classes
-  prateleirasCollection() => users;
+  familiasCollection() => familias;
   Map<String, dynamic> _prateleirasMap = {
     "Escolha a Prateleira": "Escolha a Prateleira"
   };
@@ -29,20 +30,20 @@ class PrateleiraService with ChangeNotifier {
     // print(_alreadyExists);
     if (_alreadyExists) return Future(() => "Prateleira já existente");
 
-    return users
-        .doc(getIt<AuthService>().userId)
+    return familias
+        .doc(getIt<FamiliaService>().familiaId)
         .collection(prateleiras_colecao)
         .add(prateleira.toJson())
         .then((value) => "${prateleira.nome} adicionado")
-        .catchError((error) =>
-            "Parece que teve problemas com o último Produto:\n $error");
+        .catchError(
+            (error) => "Parece que teve ao criar a prateleira:\n $error");
   }
 
   Future<QuerySnapshot> queryCollection(queryString) async {
     //retorna o snapshot equivalente aos objectos json onde
     // o nome é igual ao passado como argumento
-    return await users
-        .doc(getIt<AuthService>().userId)
+    return await familias
+        .doc(getIt<FamiliaService>().familiaId)
         .collection(prateleiras_colecao)
         .where('nome', isEqualTo: queryString)
         .get();
@@ -51,16 +52,16 @@ class PrateleiraService with ChangeNotifier {
   Future updatePrateleira(nome, novoNome) {
     //com base na coleção pegamos todos os dados que nela existem, que retorna
     //QuerySnapshot e usando o mesmo para iterar pelos documentos dentro dele
-    return users
-        .doc(getIt<AuthService>().userId)
+    return familias
+        .doc(getIt<FamiliaService>().familiaId)
         .collection(prateleiras_colecao)
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
         //verificar se o dcumento tem como atributo nome igual ao pretendido alterar
         if (doc['nome'] == nome) {
-          users
-              .doc(getIt<AuthService>().userId)
+          familias
+              .doc(getIt<FamiliaService>().familiaId)
               .collection(prateleiras_colecao)
               .doc(doc.id) //pegar o id do documento que se pretende actualizar
               .update({'nome': novoNome})

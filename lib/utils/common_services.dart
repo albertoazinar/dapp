@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:despensa/services/auth_service.dart';
+import 'package:despensa/services/familia_service.dart';
 
 import 'GetIt.dart';
 
@@ -8,7 +8,7 @@ class CommonServices {
 
   Future<bool> alreadyExists(String queryString, String colecao) async {
     return await users
-        .doc(getIt<AuthService>().userId)
+        .doc(getIt<FamiliaService>().familiaId)
         .collection(colecao)
         .where('nome', isEqualTo: queryString)
         .get()

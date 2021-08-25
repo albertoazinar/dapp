@@ -18,7 +18,7 @@ class Shelve with ChangeNotifier {
     _nome = json["nome"];
   }
 
-  Map<String, String> toJson() {
+  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data["nome"] = this._nome;
 

@@ -31,7 +31,9 @@ class _AddProductPageState extends State<AddProductPage> {
         getIt<PrateleiraService>().prateleirasMap);
     print(_prateleirasMap);
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(
+        title: "Adicionar Produto",
+      ),
       body: SingleChildScrollView(
         child: Form(
           key: formKey,
@@ -56,7 +58,6 @@ class _AddProductPageState extends State<AddProductPage> {
               CustomTextField(
                   validatorText: "Please insert a valid text",
                   hintText: "Unidade (Ex: Kg, Pacote...)",
-                  inputType: TextInputType.number,
                   onChange: (val) => produto.setUnidade(val)),
               CustomDropDownTextField(
                 items: _prateleirasMap,

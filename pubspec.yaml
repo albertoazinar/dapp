@@ -38,6 +38,7 @@ dependencies:
   speed_dial_fab: ^2.1.1
   provider: ^5.0.0
   get_it: ^7.1.3
+  shared_preferences: ^2.0.7
 
 
 
