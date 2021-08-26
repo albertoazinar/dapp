@@ -1,16 +1,28 @@
-# despensa
+# Dapp
 
 App to simplify control of needed stash at home
 
-## Getting Started
+## Briefing
 
-This project is a starting point for a Flutter application.
+This project is not a starting point for a Flutter Application.
 
-A few resources to get you started if this is your first Flutter project:
+I am giving legs to a project I designed a couple months ago while planning to 
+move from my parents home, though it was just a design I took the last 3 weeks or so 
+(files creation dated 29th July) to eliminate all sorts of procrastination and made it a priority 
+to develop and now testing with my younger brother who is giving me insights on how we can make it better.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Find screenshots below
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+
+- ![login](./screenshots/login_screen.PNG)
+- ![dashboard](./screenshots/dashboard.PNG)
+- ![products page](./screenshots/produts_screen.PNG)
+- ![add shelve](./screenshots/add_shelve.PNG)
+
+ [More Images Here](./screenshots/)
+
+if you own a Android device, please try it out and give some feedback, specialy through contribuitions here on Github, but you can also find me through [my twitter](https://twitter.com/lsambo02).
+
+
+### Use #dapp for public tweets
