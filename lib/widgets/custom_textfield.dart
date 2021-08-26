@@ -6,6 +6,7 @@ class CustomTextField extends StatefulWidget {
   void Function(String value) validator;
   bool isPasswordField;
   TextInputType inputType;
+  TextEditingController controller;
 
   CustomTextField(
       {@required this.validatorText,
@@ -13,6 +14,7 @@ class CustomTextField extends StatefulWidget {
       @required this.onChange,
       this.isPasswordField = false,
       this.inputType,
+      this.controller,
       this.validator});
 
   @override
@@ -38,6 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             },
         keyboardType: widget.inputType,
         style: TextStyle(color: Colors.blueGrey),
+        controller: widget.controller,
         decoration: InputDecoration(
             hintText: widget.hintText,
             border: InputBorder.none,

@@ -1,4 +1,5 @@
 import 'package:despensa/services/auth_service.dart';
+import 'package:despensa/utils/AppPhoneSize.dart';
 import 'package:despensa/utils/GetIt.dart';
 import 'package:despensa/utils/constantes.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
               // ),
               // Text("OR"),
               Container(
-                width: 200,
+                width: widthScreen(context) / 1.5,
                 margin: EdgeInsets.only(top: 15),
                 child: SignInButton(
                   Buttons.Google,

@@ -92,10 +92,12 @@ class FamiliaService with ChangeNotifier {
     });
   }
 
-  Future<String> addFamiliaToUser(String familiaId) {
-    users.doc(getIt<AuthService>().userId).get().then((DocumentSnapshot user) {
-      List<String> familias =
-          user.get("familias") != null ? user.get("familias") : [];
+  Future addFamiliaToUser(String familiaId) async {
+    await users
+        .doc(getIt<AuthService>().userId)
+        .get()
+        .then((DocumentSnapshot user) {
+      List familias = user.get("familias") != null ? user.get("familias") : [];
       familias.add(familiaId);
       return users
           .doc(getIt<AuthService>().userId)

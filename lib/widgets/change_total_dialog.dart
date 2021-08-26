@@ -1,16 +1,23 @@
-import 'package:despensa/models/Prateleira.dart';
-import 'package:despensa/services/prateleira_service.dart';
-import 'package:despensa/utils/GetIt.dart';
+import 'package:despensa/models/Produto.dart';
 import 'package:flutter/material.dart';
 
-class AddShelve extends StatelessWidget {
+class ChangeTotal extends StatefulWidget {
   double width;
-  Shelve prateleira = Shelve.empty();
-  TextEditingController minionNameController = TextEditingController();
-  GlobalKey<ScaffoldState> scaffoldKey;
-  AddShelve({
+  Produto produto;
+  ChangeTotal({
+    @required this.produto,
     @required this.width,
   });
+
+  @override
+  _ChangeTotalState createState() => _ChangeTotalState();
+}
+
+class _ChangeTotalState extends State<ChangeTotal> {
+  TextEditingController minionNameController = TextEditingController();
+  GlobalKey<ScaffoldState> scaffoldKey;
+  String _errMsg = '';
+  int _newTotal = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +26,25 @@ class AddShelve extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: Center(child: Text('ADICONAR PRATELEIRA')),
-        content: Container(
-            width: width,
-            height: 100,
-            child: TextField(
-              onChanged: (value) => prateleira.setNome(value),
-              decoration: InputDecoration(hintText: 'Nome da Prateleira'),
-            )),
+        title: Center(child: Text('ACTUALIZAR TOTAL')),
+        // content: Container(
+        // height: heightScreen(context) / 5,
+        content: Wrap(
+          children: [
+            Text(
+              _errMsg,
+              style: TextStyle(color: Colors.red),
+            ),
+            Container(
+                width: widget.width,
+                height: 100,
+                child: TextField(
+                  onChanged: (value) => _newTotal = int.parse(value),
+                  decoration: InputDecoration(hintText: 'Novo Total'),
+                )),
+          ],
+        ),
+        // ),
         actions: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -47,38 +65,22 @@ class AddShelve extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10.0),
                           ))),
                           child: Text(
-                            'ADICIONAR',
+                            'ALTERAR',
                             style: TextStyle(color: Colors.black),
                           ),
                           onPressed: () async {
-                            getIt<PrateleiraService>()
-                                .addShelve(prateleira)
-                                .whenComplete(() {})
-                                .then((value) {
+                            if (_newTotal < widget.produto.disponivel) {
+                              setState(() {
+                                _errMsg =
+                                    'Certifique que o total é maior que o disponível (${widget.produto.disponivel})';
+                              });
+                            } else {
+                              widget.produto.setQuantidade(_newTotal);
                               Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        value,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  // backgroundColor: Colors.blue,
-                                ),
-                              );
-                            });
+                            }
                           }),
                       SizedBox(
-                        width: width / 40,
+                        width: widget.width / 40,
                       ),
                       ElevatedButton(
                           child: Text(

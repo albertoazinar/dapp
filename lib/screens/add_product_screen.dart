@@ -16,7 +16,14 @@ class AddProductPage extends StatefulWidget {
 }
 
 class _AddProductPageState extends State<AddProductPage> {
-  GlobalKey<FormState> formKey;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final globalScaffoldKey = GlobalKey<ScaffoldMessengerState>();
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController desController = TextEditingController();
+  TextEditingController qntdController = TextEditingController();
+  TextEditingController unidController = TextEditingController();
+
   ProdutosServices produtosServices;
   Produto produto = Produto.empty();
 
@@ -31,6 +38,7 @@ class _AddProductPageState extends State<AddProductPage> {
         getIt<PrateleiraService>().prateleirasMap);
     print(_prateleirasMap);
     return Scaffold(
+      key: globalScaffoldKey,
       appBar: CustomAppBar(
         title: "Adicionar Produto",
       ),
@@ -45,19 +53,23 @@ class _AddProductPageState extends State<AddProductPage> {
               CustomTextField(
                   validatorText: "Please insert a valid text",
                   hintText: "Name of the Product",
+                  controller: nameController,
                   onChange: (val) => produto.setNome(val)),
               CustomTextField(
-                  validatorText: "Please insert a valid text",
+                  // validatorText: "Please insert a valid text",
                   hintText: "Descrição",
+                  controller: desController,
                   onChange: (val) => produto.setDescricao(val)),
               CustomTextField(
                   validatorText: "Please insert a valid text",
                   hintText: "Quantidade do produto",
+                  controller: qntdController,
                   inputType: TextInputType.number,
                   onChange: (val) => produto.setQuantidade(int.parse(val))),
               CustomTextField(
                   validatorText: "Please insert a valid text",
                   hintText: "Unidade (Ex: Kg, Pacote...)",
+                  controller: unidController,
                   onChange: (val) => produto.setUnidade(val)),
               CustomDropDownTextField(
                 items: _prateleirasMap,
@@ -77,34 +89,42 @@ class _AddProductPageState extends State<AddProductPage> {
                             borderRadius: BorderRadius.circular(10)),
                       )),
                   onPressed: () {
-                    produto.setDisponivel(produto.quantidade);
-                    produtosServices = ProdutosServices(
-                        getIt<PrateleiraService>()
-                            .prateleirasMap[produto.prateleira]);
-                    produtosServices
-                        .addProduto(produto)
-                        .whenComplete(() {})
-                        .then((value) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                value,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                    if (formKey.currentState.validate()) {
+                      produto.setDisponivel(produto.quantidade);
+                      produtosServices = ProdutosServices(
+                          getIt<PrateleiraService>()
+                              .prateleirasMap[produto.prateleira]);
+                      produtosServices
+                          .addProduto(produto)
+                          .whenComplete(() {})
+                          .then((value) {
+                        print(value);
+                        globalScaffoldKey.currentState.showSnackBar(
+                          SnackBar(
+                            content: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  value,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 14.0,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            duration: Duration(seconds: 3),
+                            // backgroundColor: Colors.blue,
                           ),
-                          duration: Duration(seconds: 3),
-                          // backgroundColor: Colors.blue,
-                        ),
-                      );
-                      // formKey.currentState.reset();
-                    });
+                        );
+                        //
+                      });
+                      formKey.currentState.reset();
+                      nameController.text = '';
+                      desController.text = '';
+                      qntdController.text = '';
+                      unidController.text = '';
+                    }
                   },
                   child: Text("Adicionar Produto"),
                 ),

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
-Widget buildCardButton({String title, Function() action, String valueKey}) {
+Widget buildCardButton(int index,
+    {String title,
+    Function() action,
+    String valueKey,
+    String total,
+    String disponivel}) {
   return Card(
     elevation: 3,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -12,10 +17,22 @@ Widget buildCardButton({String title, Function() action, String valueKey}) {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.sports_baseball_outlined,
-              color: Colors.blueGrey,
-              size: 48,
+            Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                Icon(
+                  Icons.local_grocery_store,
+                  size: 48,
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 7),
+                  child: Text(
+                    index.toString(),
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                    //
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               height: 5,
@@ -24,8 +41,12 @@ Widget buildCardButton({String title, Function() action, String valueKey}) {
               child: Text(
                 title,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.w700),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
               ),
+            ),
+            Text(
+              '$disponivel/$total',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
             )
           ],
         ),

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:despensa/models/Produto.dart';
 import 'package:despensa/services/produto_service.dart';
 import 'package:despensa/utils/AppPhoneSize.dart';
+import 'package:despensa/widgets/change_total_dialog.dart';
 import 'package:despensa/widgets/custom_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -45,8 +46,8 @@ class _SingleProductPageState extends State<SingleProductPage> {
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: heightScreen(context) / 10),
-                  height: heightScreen(context) / 4,
+                  padding: EdgeInsets.only(left: heightScreen(context) / 20),
+                  height: heightScreen(context) / 10,
                   width: widthScreen(context),
                   decoration: BoxDecoration(
                     color: Colors.blueGrey,
@@ -56,22 +57,15 @@ class _SingleProductPageState extends State<SingleProductPage> {
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(right: 30),
-                  child: Icon(
-                    Icons.weekend_outlined,
-                    size: 100,
-                  ),
-                ),
               ],
             ),
             Row(
               children: [
                 Container(
                   margin: EdgeInsets.all(15),
-                  width: widthScreen(context) / 1.5,
+                  width: widthScreen(context) / 1.6,
                   child: Text(
-                    widget.produto.descricao,
+                    widget.produto.descricao ?? '',
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                         fontSize: 15,
@@ -81,10 +75,24 @@ class _SingleProductPageState extends State<SingleProductPage> {
                 ),
                 Padding(
                     padding: EdgeInsets.all(15),
-                    child: Text(
-                      "${widget.produto.disponivel}/\n${widget.produto.quantidade}",
-                      overflow: TextOverflow.fade,
-                      style: TextStyle(fontSize: 15),
+                    child: TextButton(
+                      onPressed: () {
+                        _isToggled = true;
+                        showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            builder: (BuildContext context) {
+                              return ChangeTotal(
+                                produto: widget.produto,
+                                width: widthScreen(context),
+                              );
+                            });
+                      },
+                      child: Text(
+                        "${widget.produto.disponivel}/\n${widget.produto.quantidade}",
+                        overflow: TextOverflow.fade,
+                        style: TextStyle(fontSize: 15),
+                      ),
                     ))
               ],
             ),
@@ -132,7 +140,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                           var newQntd = widget.produto.disponivel - 1;
                           setState(() {
                             _isToggled = true;
-                            widget.produto.setDisponivel(newQntd);
+                            // widget.produto.setDisponivel(newQntd);
                             if (percent > 0) {
                               widget.produto.setDisponivel(newQntd);
                               calcPercent();
@@ -161,10 +169,10 @@ class _SingleProductPageState extends State<SingleProductPage> {
                           setState(() {
                             _isToggled = true;
                             widget.produto.setDisponivel(newQntd);
-                            if (percent < 100) {
-                              widget.produto.setDisponivel(newQntd);
-                              calcPercent();
+                            if (percent >= 100) {
+                              widget.produto.setQuantidade(newQntd);
                             }
+                            calcPercent();
                           });
                         },
                       ),

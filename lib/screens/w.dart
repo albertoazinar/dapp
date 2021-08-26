@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:despensa/models/Prateleira.dart';
+import 'package:despensa/screens/add_product_screen.dart';
 import 'package:despensa/services/auth_service.dart';
 import 'package:despensa/services/familia_service.dart';
 import 'package:despensa/services/prateleira_service.dart';
@@ -13,16 +14,16 @@ import 'package:despensa/widgets/no_data.dart';
 import 'package:flutter/material.dart';
 import 'package:speed_dial_fab/speed_dial_fab.dart';
 
-import 'add_product_screen.dart';
-
-class Dashboard extends StatefulWidget {
-  const Dashboard({Key key}) : super(key: key);
+class OK extends StatefulWidget {
+  const OK({Key key}) : super(key: key);
 
   @override
-  _DashboardState createState() => _DashboardState();
+  _OKState createState() => _OKState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _OKState extends State<OK> with ChangeNotifier {
+  PrateleiraService prateleiraService = PrateleiraService();
+  // Map<String, dynamic> _prateleirasMap = Map<String, dynamic>();
   String familyName;
 
   @override
@@ -108,8 +109,7 @@ class _DashboardState extends State<Dashboard> {
                 height: heightScreen(context) / 1.2,
                 margin: EdgeInsets.all(0),
                 child: StreamBuilder<QuerySnapshot>(
-                  stream: getIt<PrateleiraService>()
-                      .familias
+                  stream: prateleiraService.familias
                       .doc(getIt<FamiliaService>().familiaId)
                       .collection('prateleiras')
                       .snapshots(),
@@ -142,6 +142,7 @@ class _DashboardState extends State<Dashboard> {
 
                               getIt<PrateleiraService>()
                                   .addPrateleirasTemp(shelve.nome, document.id);
+                              notifyListeners();
 
                               return new ListTile(
                                 title: new Text(

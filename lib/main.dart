@@ -3,6 +3,7 @@ import 'package:despensa/screens/dashboard.dart';
 import 'package:despensa/screens/enter_family_screen.dart';
 import 'package:despensa/screens/login.dart';
 import 'package:despensa/screens/products_screen.dart';
+import 'package:despensa/screens/settings_screen.dart';
 import 'package:despensa/services/auth_service.dart';
 import 'package:despensa/services/firebase_conn.dart';
 import 'package:despensa/utils/GetIt.dart';
@@ -15,7 +16,6 @@ import 'screens/family_screen.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   setUpGetIt();
-
   initializeDefault()
       .whenComplete(() => {})
       .then((value) => runApp(provider.MultiProvider(
@@ -42,7 +42,8 @@ class MyApp extends StatelessWidget {
         produtos_screen: (context) => ProductsPage(),
         enter_family_screen: (context) => EnterFamilyScreen(),
         family_screen: (context) => FamilyScreen(),
-        create_family_screen: (context) => CreateFamilyScreen()
+        create_family_screen: (context) => CreateFamilyScreen(),
+        settings_screen: (context) => SettingsScreen()
       },
     );
   }

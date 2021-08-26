@@ -33,7 +33,7 @@ class _FamilyScreenState extends State<FamilyScreen> {
                         AsyncSnapshot<Map<String, dynamic>> snapshot) {
                       print('P' + snapshot.data.toString());
                       if (snapshot.hasError) {
-                        return Text('Occorreu um erro');
+                        return Text('SEM FAMILIAS');
                       }
 
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -73,8 +73,10 @@ class _FamilyScreenState extends State<FamilyScreen> {
                                     // _isDoneSignIn = true;
                                     // _message = value;
                                   });
-                                  Navigator.pushReplacementNamed(
-                                      context, dashboard_screen);
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      dashboard_screen,
+                                      (Route<dynamic> route) => false);
                                 },
                               ),
                             );
@@ -96,8 +98,8 @@ class _FamilyScreenState extends State<FamilyScreen> {
                     textAlign: TextAlign.center,
                     // style: TextStyle(color: Colors.blueGrey[400]),
                   ),
-                  onPressed: () => Navigator.pushReplacementNamed(
-                      context, enter_family_screen),
+                  onPressed: () =>
+                      Navigator.pushNamed(context, enter_family_screen),
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<OutlinedBorder>(
                         RoundedRectangleBorder(
@@ -114,8 +116,8 @@ class _FamilyScreenState extends State<FamilyScreen> {
                     'CRIAR FAMILIA',
                     // style: TextStyle(color: Colors.blueGrey[400]),
                   ),
-                  onPressed: () => Navigator.pushReplacementNamed(
-                      context, create_family_screen),
+                  onPressed: () =>
+                      Navigator.pushNamed(context, create_family_screen),
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<OutlinedBorder>(
                         RoundedRectangleBorder(

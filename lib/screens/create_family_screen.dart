@@ -79,7 +79,7 @@ class _CreateFamilyScreenState extends State<CreateFamilyScreen> {
                 child: ElevatedButton(
                   child: Text(
                     'CRIAR',
-                    style: TextStyle(color: Colors.blueGrey[400]),
+                    // style: TextStyle(color: Colors.blueGrey[400]),
                   ),
                   onPressed: () {
                     familia.setOwner(getIt<AuthService>().userId);
@@ -94,7 +94,8 @@ class _CreateFamilyScreenState extends State<CreateFamilyScreen> {
                         // _isDoneSignIn = true;
                         // _message = value;
                       });
-                      Navigator.pushReplacementNamed(context, dashboard_screen);
+                      Navigator.pushNamedAndRemoveUntil(context,
+                          dashboard_screen, (Route<dynamic> route) => false);
                     });
                   },
                   style: ButtonStyle(

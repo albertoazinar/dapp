@@ -9,6 +9,7 @@ import 'package:despensa/utils/GetIt.dart';
 import 'package:despensa/utils/constantes.dart';
 import 'package:despensa/widgets/custom_appBar.dart';
 import 'package:despensa/widgets/custom_shelve_button.dart';
+import 'package:despensa/widgets/no_data.dart';
 import 'package:flutter/material.dart';
 
 class ProductsPage extends StatefulWidget {
@@ -31,12 +32,12 @@ class _ProductsPageState extends State<ProductsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            // Container(
+            //   height: heightScreen(context) / 4,
+            //   color: Colors.blueGrey,
+            // ),
             Container(
-              height: heightScreen(context) / 4,
-              color: Colors.blueGrey,
-            ),
-            Container(
-                height: heightScreen(context),
+                height: heightScreen(context) / 1.13,
                 child: StreamBuilder(
                     stream: produtosService.familias
                         .doc(getIt<FamiliaService>().familiaId)
@@ -63,32 +64,37 @@ class _ProductsPageState extends State<ProductsPage> {
                           child: Text("SEM DADOS"),
                         );
                       }
+                      int index = 0;
                       // _produtosMap = snapshot.data as Map<String, dynamic>;
                       // log('hummm ${Produto.fromJson(snapshot.data)}');
-                      return GridView.count(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.only(top: 20, left: 10),
-                        crossAxisSpacing: widthScreen(context) / 50,
-                        mainAxisSpacing: widthScreen(context) / 50,
-                        crossAxisCount: 3,
-                        children:
-                            snapshot.data.docs.map((DocumentSnapshot document) {
-                          _produtosMap =
-                              document.data() as Map<String, dynamic>;
-                          Produto produto = Produto.fromJson(_produtosMap);
-
-                          return buildCardButton(
-                              title: _produtosMap['nome'],
-                              action: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SingleProductPage(produto)),
-                                );
-                              });
-                        }).toList(),
-                      );
+                      return snapshot.data.docs.length == 0
+                          ? NoData()
+                          : GridView.count(
+                              physics: AlwaysScrollableScrollPhysics(),
+                              padding: EdgeInsets.only(top: 20, left: 10),
+                              crossAxisSpacing: widthScreen(context) / 50,
+                              mainAxisSpacing: widthScreen(context) / 50,
+                              crossAxisCount: 3,
+                              children: snapshot.data.docs
+                                  .map((DocumentSnapshot document) {
+                                _produtosMap =
+                                    document.data() as Map<String, dynamic>;
+                                Produto produto =
+                                    Produto.fromJson(_produtosMap);
+                                index = ++index;
+                                return buildCardButton(index,
+                                    title: _produtosMap['nome'], action: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SingleProductPage(produto)),
+                                  );
+                                },
+                                    total: produto.quantidade.toString(),
+                                    disponivel: produto.disponivel.toString());
+                              }).toList(),
+                            );
                     }))
           ],
         ),

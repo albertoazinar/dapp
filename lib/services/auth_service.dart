@@ -1,5 +1,7 @@
 import 'package:despensa/models/User.dart';
 import 'package:despensa/services/familia_service.dart';
+import 'package:despensa/utils/GetIt.dart';
+import 'package:despensa/utils/sharedPreferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -98,6 +100,7 @@ class AuthService with ChangeNotifier {
   }
 
   void signOut() {
+    getIt<UserState>().delete();
     auth.signOut();
   }
 }
