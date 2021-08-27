@@ -35,10 +35,10 @@ If you own a Android device, please try it out and give some feedback, specialy 
 - [x] Create products and add to shelve
 - [x] See products in specific shelve
 - [x] Edit quatities
-- [  ] Edit overall details of a product
-- [  ] Delete product
-- [  ] Rules to put in a "to buy list"
-- [  ] Estimated prices and "to buy list" with estimated value to spend
+- [ ] Edit overall details of a product
+- [ ] Delete product
+- [ ] Rules to put in a "to buy list"
+- [ ] Estimated prices and "to buy list" with estimated value to spend
 
 
 
