@@ -22,7 +22,25 @@ Find screenshots below
 
  [More Images Here](./screenshots/)
 
-if you own a Android device, please try it out and give some feedback, specialy through contribuitions here on Github, but you can also find me through [my twitter](https://twitter.com/lsambo02).
+If you own a Android device, please try it out and give some feedback, specialy through contribuitions here on Github, but you can also find me through [my twitter](https://twitter.com/lsambo02).
 
 
 ### Use #dapp for public tweets
+
+## ToDo
+- [ x ] Create a family
+- [ x ] Invite someone to a family
+- [ x ] Enter a family by invite
+- [ x ] Create shelves
+- [ x ] Create products and add to shelve
+- [ x ] See products in specific shelve
+- [ x ] Edit quatities
+- [  ] Edit overall details of a product
+- [  ] Delete product
+- [  ] Rules to put in a "to buy list"
+- [  ] Estimated prices and "to buy list" with estimated value to spend
+
+
+
+
+
