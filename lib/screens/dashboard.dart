@@ -24,16 +24,17 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   String familyName;
+  String user = 'user';
 
   @override
   void initState() {
-    getIt<UserState>().readFamilyId().then((value) {
-      if (value != null) getIt<FamiliaService>().setFamiliaId(value);
-      getIt<FamiliaService>().getFamilyName(value).then((value) {
-        setState(() {
-          familyName = value;
+    getIt<UserState>().readFamilyId().whenComplete(() {}).then((value) {
+      if (value != null)
+        getIt<FamiliaService>().setFamilia(value).whenComplete(() {
+          setState(() {
+            familyName = getIt<FamiliaService>().familia.nome;
+          });
         });
-      });
     });
   }
 
@@ -90,10 +91,12 @@ class _DashboardState extends State<Dashboard> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Olá, ${getIt<AuthService>().user.displayName}",
+                                    "Olá, ${getIt<AuthService>().user.displayName ?? user} ",
                                     style: TextStyle(fontSize: 25),
                                   ),
-                                  Text("Família $familyName"),
+                                  familyName != null
+                                      ? Text("Família $familyName")
+                                      : SizedBox(),
                                 ],
                               ),
                             ],
@@ -110,7 +113,7 @@ class _DashboardState extends State<Dashboard> {
                 child: StreamBuilder<QuerySnapshot>(
                   stream: getIt<PrateleiraService>()
                       .familias
-                      .doc(getIt<FamiliaService>().familiaId)
+                      .doc(getIt<FamiliaService>().familia.id)
                       .collection('prateleiras')
                       .snapshots(),
                   builder: (BuildContext context,

@@ -91,6 +91,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   onPressed: () {
                     if (formKey.currentState.validate()) {
                       produto.setDisponivel(produto.quantidade);
+                      produto.setPunit(0);
                       produtosServices = ProdutosServices(
                           getIt<PrateleiraService>()
                               .prateleirasMap[produto.prateleira]);

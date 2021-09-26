@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:despensa/models/Produto.dart';
 import 'package:despensa/screens/single_product_screen.dart';
+import 'package:despensa/services/ListaComprasController.dart';
 import 'package:despensa/services/familia_service.dart';
 import 'package:despensa/services/prateleira_service.dart';
 import 'package:despensa/services/produto_service.dart';
@@ -22,13 +23,36 @@ class ProductsPage extends StatefulWidget {
 class _ProductsPageState extends State<ProductsPage> {
   ProdutosServices produtosService;
   Map<String, dynamic> _produtosMap = Map<String, dynamic>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    // getIt<ProdutosServices>().setListaDeCompra([]);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // getIt<ProdutosServices>().setListaDeCompra([]);
     final args = ModalRoute.of(context).settings.arguments;
     produtosService = ProdutosServices(args.toString());
     print(args.toString());
+    getIt<PrateleiraService>().setPrateleiraId(args.toString());
+
     return Scaffold(
-      appBar: CustomAppBar(title: args.toString()),
+      appBar: CustomAppBar(
+        title: args.toString(),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(left: 55.0),
+            child: IconButton(
+              icon: Icon(Icons.shopping_basket_outlined),
+              onPressed: () =>
+                  Navigator.pushNamed(context, lista_compras_screen),
+            ),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -37,10 +61,10 @@ class _ProductsPageState extends State<ProductsPage> {
             //   color: Colors.blueGrey,
             // ),
             Container(
-                height: heightScreen(context) / 1.13,
+                height: heightScreen(context) / 1.1112,
                 child: StreamBuilder(
                     stream: produtosService.familias
-                        .doc(getIt<FamiliaService>().familiaId)
+                        .doc(getIt<FamiliaService>().familia.id)
                         .collection(prateleiras_colecao)
                         .doc(getIt<PrateleiraService>()
                             .prateleirasMap[args.toString()])
@@ -65,6 +89,12 @@ class _ProductsPageState extends State<ProductsPage> {
                         );
                       }
                       int index = 0;
+                      if (getIt<ListaComprasController>()
+                          .listaDeCompra
+                          .isNotEmpty) {
+                        getIt<ListaComprasController>().reset();
+                      }
+
                       // _produtosMap = snapshot.data as Map<String, dynamic>;
                       // log('hummm ${Produto.fromJson(snapshot.data)}');
                       return snapshot.data.docs.length == 0
@@ -81,6 +111,24 @@ class _ProductsPageState extends State<ProductsPage> {
                                     document.data() as Map<String, dynamic>;
                                 Produto produto =
                                     Produto.fromJson(_produtosMap);
+                                produto.setId(document.id);
+
+                                int percent = ((produto.disponivel * 100) /
+                                        produto.quantidade)
+                                    .round();
+                                if (percent <=
+                                    getIt<FamiliaService>()
+                                        .familia
+                                        .qntdMinima) {
+                                  getIt<ListaComprasController>()
+                                      .addProductItem(produto);
+                                }
+
+                                // log(getIt<ProdutosServices>()
+                                //     .listaDeCompra
+                                //     .length
+                                //     .toString());
+
                                 index = ++index;
                                 return buildCardButton(index,
                                     title: _produtosMap['nome'], action: () {

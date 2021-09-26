@@ -1,4 +1,5 @@
 import 'package:despensa/models/Produto.dart';
+import 'package:despensa/services/produto_service.dart';
 import 'package:flutter/material.dart';
 
 class ChangeTotal extends StatefulWidget {
@@ -18,9 +19,11 @@ class _ChangeTotalState extends State<ChangeTotal> {
   GlobalKey<ScaffoldState> scaffoldKey;
   String _errMsg = '';
   int _newTotal = 0;
+  ProdutosServices produtosServices;
 
   @override
   Widget build(BuildContext context) {
+    produtosServices = ProdutosServices(widget.produto.prateleira);
     return Container(
       height: 50,
       width: MediaQuery.of(context).size.width,
@@ -76,6 +79,10 @@ class _ChangeTotalState extends State<ChangeTotal> {
                               });
                             } else {
                               widget.produto.setQuantidade(_newTotal);
+                              produtosServices
+                                  .updateTotal(widget.produto.nome, _newTotal)
+                                  .whenComplete(() {})
+                                  .then((value) => print(value));
                               Navigator.pop(context);
                             }
                           }),

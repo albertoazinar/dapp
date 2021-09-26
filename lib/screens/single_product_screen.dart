@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:despensa/models/Produto.dart';
+import 'package:despensa/screens/edit_product_screen.dart';
 import 'package:despensa/services/produto_service.dart';
 import 'package:despensa/utils/AppPhoneSize.dart';
 import 'package:despensa/widgets/change_total_dialog.dart';
@@ -22,6 +23,8 @@ class _SingleProductPageState extends State<SingleProductPage> {
 
   bool _isToggled = false;
 
+  bool _isTotalToggled = false;
+
   _SingleProductPageState(this.produto);
 
   double percent = 0;
@@ -33,6 +36,8 @@ class _SingleProductPageState extends State<SingleProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    String gasto = '${widget.produto.disponivel}/${widget.produto.quantidade}';
+
     return Scaffold(
       appBar: CustomAppBar(
         title: widget.produto.prateleira,
@@ -54,47 +59,96 @@ class _SingleProductPageState extends State<SingleProductPage> {
                   ),
                   child: Text(
                     "${widget.produto.nome}",
-                    style: TextStyle(fontSize: 30),
+                    style: TextStyle(fontSize: widthScreen(context) / 15),
                   ),
                 ),
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EditProductScreen.prod(produto))),
+                )
               ],
             ),
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.all(15),
-                  width: widthScreen(context) / 1.6,
-                  child: Text(
-                    widget.produto.descricao ?? '',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.blueGrey),
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(15),
+                          width: widthScreen(context) / 1.6,
+                          child: Text(
+                            widget.produto.descricao ?? 'SEM DESCRIÇÃO',
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.blueGrey),
+                          ),
+                        ),
+                        Container(
+                            margin: EdgeInsets.only(left: 15, right: 30),
+                            child: TextButton(
+                              onPressed: () {
+                                _isToggled = true;
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context) {
+                                      return ChangeTotal(
+                                        produto: widget.produto,
+                                        width: widthScreen(context),
+                                      );
+                                    });
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "$gasto",
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  Text(
+                                    '${widget.produto.unidade}(s)',
+                                    overflow: TextOverflow.ellipsis,
+                                  )
+                                ],
+                              ),
+                            ))
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                    padding: EdgeInsets.all(15),
-                    child: TextButton(
-                      onPressed: () {
-                        _isToggled = true;
-                        showDialog(
-                            context: context,
-                            barrierDismissible: true,
-                            builder: (BuildContext context) {
-                              return ChangeTotal(
-                                produto: widget.produto,
-                                width: widthScreen(context),
-                              );
-                            });
-                      },
-                      child: Text(
-                        "${widget.produto.disponivel}/\n${widget.produto.quantidade}",
-                        overflow: TextOverflow.fade,
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ))
-              ],
+                  widget.produto.pUnit != null
+                      ? Container(
+                          margin: EdgeInsets.only(bottom: 15, left: 12),
+                          width: widthScreen(context) / 1.6,
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.money,
+                                color: Colors.blueGrey,
+                              ),
+                              Text(
+                                  '${widget.produto.pUnit.toString()}MZN/${widget.produto.unidade}',
+                                  style: TextStyle(
+                                      fontSize: widthScreen(context) / 28,
+                                      color: Colors.blueGrey)),
+                            ],
+                          ))
+                      : SizedBox()
+                ],
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(15.0),
@@ -170,6 +224,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                             _isToggled = true;
                             widget.produto.setDisponivel(newQntd);
                             if (percent >= 100) {
+                              _isTotalToggled = true;
                               widget.produto.setQuantidade(newQntd);
                             }
                             calcPercent();
@@ -198,6 +253,14 @@ class _SingleProductPageState extends State<SingleProductPage> {
               onPressed: () {
                 ProdutosServices produtosServices =
                     ProdutosServices(widget.produto.prateleira);
+                if (_isTotalToggled) {
+                  produtosServices
+                      .updateTotal(
+                          widget.produto.nome, widget.produto.quantidade)
+                      .then((value) {
+                    // print(value);
+                  });
+                }
                 produtosServices
                     .updateQuantidade(
                         widget.produto.nome, widget.produto.disponivel)

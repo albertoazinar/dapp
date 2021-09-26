@@ -8,7 +8,7 @@ class CommonServices {
 
   Future<bool> alreadyExists(String queryString, String colecao) async {
     return await users
-        .doc(getIt<FamiliaService>().familiaId)
+        .doc(getIt<FamiliaService>().familia.id)
         .collection(colecao)
         .where('nome', isEqualTo: queryString)
         .get()

@@ -35,18 +35,23 @@ class _CustomDropDownTextFieldState extends State<CustomDropDownTextField> {
         widget.label == null
             ? SizedBox()
             : Container(
-                width: widget.width / 1.2,
-                padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
-                child: Text(widget.label),
+                // width: widget.width / 1.2,
+                margin: EdgeInsets.only(bottom: 10, left: 12, right: 12),
+                child: Text(
+                  widget.label,
+                  style: TextStyle(color: Colors.blueGrey),
+                ),
               ),
         Padding(
           padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
           child: Container(
             child: DropdownButtonFormField<dynamic>(
+              iconEnabledColor: Colors.blueGrey,
               decoration: InputDecoration(
                 fillColor: Colors.blueGrey,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.blueGrey, width: 0.0),
                 ),
               ),
               value: widget.currentSelectedValue,

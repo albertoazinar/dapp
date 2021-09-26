@@ -5,6 +5,10 @@ abstract class SharedUserState {
   Future<String> readFamilyId();
   void saveFamilyId(value);
   void delete();
+  // Future<dynamic> readTheme(String key);
+  // void saveTheme(String key, dynamic value);
+  // Future<bool> deleteTheme(String key);
+
 }
 
 class UserState implements SharedUserState {
@@ -30,5 +34,29 @@ class UserState implements SharedUserState {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove(key);
     print(value);
+  }
+
+  static void saveTheme(String key, dynamic value) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (value is int) {
+      prefs.setInt(key, value);
+    } else if (value is String) {
+      prefs.setString(key, value);
+    } else if (value is bool) {
+      prefs.setBool(key, value);
+    } else {
+      print("Invalid Type");
+    }
+  }
+
+  static Future<dynamic> readTheme(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    dynamic obj = prefs.get(key);
+    return obj;
+  }
+
+  static Future<bool> deleteTheme(String key) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.remove(key);
   }
 }

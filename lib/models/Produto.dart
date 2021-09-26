@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
 
 class Produto with ChangeNotifier {
-  String _nome, _descricao, _unidade, _prateleira;
+  String _id, _nome, _descricao, _unidade, _prateleira;
   int _quantidade, _disponivel;
+  double _pUnit;
 
-  Produto(this._nome, this._descricao, this._unidade, this._prateleira,
-      this._quantidade, this._disponivel);
+  Produto(this._id, this._nome, this._descricao, this._unidade,
+      this._prateleira, this._quantidade, this._disponivel, this._pUnit);
 
   Produto.empty();
+
+  double get pUnit => _pUnit;
+
+  int setPunit(double value) {
+    _pUnit = value;
+    notifyListeners();
+  }
+
+  String get id => _id;
+
+  setId(String value) {
+    _id = value;
+    notifyListeners();
+  }
 
   int get disponivel => _disponivel;
 
@@ -58,6 +73,7 @@ class Produto with ChangeNotifier {
     _quantidade = json["quantidade"];
     _prateleira = json["prateleira"];
     _disponivel = json["disponivel"];
+    _pUnit = json["pUnitario"] != null ? json["pUnitario"].toDouble() : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -68,6 +84,7 @@ class Produto with ChangeNotifier {
     data["quantidade"] = this._quantidade;
     data["prateleira"] = this._prateleira;
     data["disponivel"] = this._disponivel;
+    data["pUnitario"] = this._pUnit;
 
     return data;
   }

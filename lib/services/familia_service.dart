@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:despensa/models/Familia.dart';
 import 'package:despensa/models/User.dart';
@@ -17,6 +19,7 @@ class FamiliaService with ChangeNotifier {
   // FamiliaService authService = FamiliaService();
 
   String _familiaId;
+  Familia _familia = Familia.empty();
 
   //funcao lambda pra permitir acesso a coleção de outras classes
   familiasCollection() => familias;
@@ -74,22 +77,14 @@ class FamiliaService with ChangeNotifier {
 
   Future<Map<String, dynamic>> getUserFamilies() async {
     Map<String, dynamic> families = {};
-
-    return users
-        .doc(getIt<AuthService>().userId)
-        .get()
-        .then((DocumentSnapshot user) {
-      List familias = user.get('familias');
-      print(familias);
-      for (String id in familias) {
-        return getFamilyName(id).then((value) {
-          families[value] = id;
-          return families;
-        });
-      }
-
-      // return families;
-    });
+    DocumentSnapshot user = await users.doc(getIt<AuthService>().userId).get();
+    List familias = user.get('familias');
+    print(familias);
+    for (String id in familias) {
+      String famName = await getFamilyName(id);
+      families[famName] = id;
+    }
+    return families;
   }
 
   Future addFamiliaToUser(String familiaId) async {
@@ -157,10 +152,31 @@ class FamiliaService with ChangeNotifier {
   //       .catchError((error) =>
   //           "Parece que teve problemas com o último Produto:\n $error");
   // }
-  String setFamiliaId(String value) {
-    _familiaId = value;
+
+  Future<Familia> setFamilia(familyId) async {
+    DocumentSnapshot documentSnapshot = await familias.doc(familyId).get();
+    Map<String, dynamic> familyMap = documentSnapshot.data();
+    _familia = await Familia.fromJson(familyMap);
+    _familia.setId(familyId);
     notifyListeners();
   }
 
-  String get familiaId => _familiaId;
+  Familia get familia => _familia;
+
+  Future updateQntMinima(nome, newQntd) {
+    log(nome);
+    return familias.get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        //verificar se o dcumento tem como atributo nome igual ao pretendido alterar
+        if (doc['nome'] == nome) {
+          familias
+              .doc(doc.id) //pegar o id do documento que se pretende actualizar
+              .update({'quantidadeMinima': newQntd})
+              .then((value) => "Quantidade Mínima Actualizada para $newQntd")
+              .catchError((error) =>
+                  "Oops, parece que não deu pra actualizar:\n $error");
+        }
+      });
+    });
+  }
 }

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 class Familia with ChangeNotifier {
   String _id, _nome, _owner;
   List<Shelve> _prateleiras;
+  int _qntdMinima;
 
-  Familia(this._id, this._nome, this._owner, this._prateleiras);
+  Familia(
+      this._id, this._nome, this._owner, this._prateleiras, this._qntdMinima);
 
   Familia.empty();
 
@@ -36,11 +38,29 @@ class Familia with ChangeNotifier {
     notifyListeners();
   }
 
+  int setQntdMinima(int qntdMinimaCtrl) {
+    _qntdMinima = qntdMinimaCtrl;
+    notifyListeners();
+  }
+
+  addQntdMinima() {
+    _qntdMinima++;
+    notifyListeners();
+  }
+
+  subtractQntdMinima() {
+    _qntdMinima--;
+    notifyListeners();
+  }
+
+  int get qntdMinima => _qntdMinima;
+
   Familia.fromJson(Map<String, dynamic> json) {
     this._id = json["id"];
     this._nome = json["nome"];
     this._owner = json["owner"];
     this._prateleiras = json["prateleiras"];
+    this._qntdMinima = json["quantidadeMinima"];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +70,7 @@ class Familia with ChangeNotifier {
     data["nome"] = this._nome;
     data["owner"] = this._owner;
     data["prateleiras"] = this._prateleiras;
+    data["quantidadeMinima"] = this._prateleiras;
 
     return data;
   }

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:despensa/models/Prateleira.dart';
-import 'package:despensa/services/auth_service.dart';
 import 'package:despensa/services/familia_service.dart';
 import 'package:despensa/utils/GetIt.dart';
 import 'package:despensa/utils/common_services.dart';
@@ -31,7 +30,7 @@ class PrateleiraService with ChangeNotifier {
     if (_alreadyExists) return Future(() => "Prateleira já existente");
 
     return familias
-        .doc(getIt<FamiliaService>().familiaId)
+        .doc(getIt<FamiliaService>().familia.id)
         .collection(prateleiras_colecao)
         .add(prateleira.toJson())
         .then((value) => "${prateleira.nome} adicionado")
@@ -43,17 +42,39 @@ class PrateleiraService with ChangeNotifier {
     //retorna o snapshot equivalente aos objectos json onde
     // o nome é igual ao passado como argumento
     return await familias
-        .doc(getIt<FamiliaService>().familiaId)
+        .doc(getIt<FamiliaService>().familia.id)
         .collection(prateleiras_colecao)
         .where('nome', isEqualTo: queryString)
         .get();
+  }
+
+  String _prateleiraId;
+
+  String get prateleiraId => _prateleiraId;
+
+  Future<String> setPrateleiraId(nome) {
+    familias
+        .doc(getIt<FamiliaService>().familia.id)
+        .collection(prateleiras_colecao)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        //verificar se o dcumento tem como atributo nome igual ao pretendido alterar
+        if (doc['nome'] == nome) {
+          _prateleiraId = doc.id;
+          notifyListeners();
+          //pegar o id do documento que se pretende actualizar
+
+        }
+      });
+    });
   }
 
   Future updatePrateleira(nome, novoNome) {
     //com base na coleção pegamos todos os dados que nela existem, que retorna
     //QuerySnapshot e usando o mesmo para iterar pelos documentos dentro dele
     return familias
-        .doc(getIt<FamiliaService>().familiaId)
+        .doc(getIt<FamiliaService>().familia.id)
         .collection(prateleiras_colecao)
         .get()
         .then((QuerySnapshot querySnapshot) {
@@ -61,7 +82,7 @@ class PrateleiraService with ChangeNotifier {
         //verificar se o dcumento tem como atributo nome igual ao pretendido alterar
         if (doc['nome'] == nome) {
           familias
-              .doc(getIt<FamiliaService>().familiaId)
+              .doc(getIt<FamiliaService>().familia.id)
               .collection(prateleiras_colecao)
               .doc(doc.id) //pegar o id do documento que se pretende actualizar
               .update({'nome': novoNome})
