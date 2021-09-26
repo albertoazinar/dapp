@@ -34,7 +34,7 @@ If you own a Android device, please try it out and give some feedback, specialy 
 - [x] Create shelves
 - [x] Create products and add to shelve
 - [x] See products in specific shelve
-- [x] Edit quatities
+- [x] Edit quantities
 - [x] Edit overall details of a product
 - [x] Delete product
 - [x] Rules to put in a "to buy list"
