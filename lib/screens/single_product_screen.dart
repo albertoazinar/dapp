@@ -51,7 +51,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: heightScreen(context) / 20),
+                  padding: EdgeInsets.only(top:0,left: heightScreen(context) / 20),
                   height: heightScreen(context) / 10,
                   width: widthScreen(context),
                   decoration: BoxDecoration(

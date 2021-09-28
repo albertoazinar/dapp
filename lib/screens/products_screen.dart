@@ -61,7 +61,7 @@ class _ProductsPageState extends State<ProductsPage> {
             //   color: Colors.blueGrey,
             // ),
             Container(
-                height: heightScreen(context) / 1.1112,
+                height: heightScreen(context) / 1.18,
                 child: StreamBuilder(
                     stream: produtosService.familias
                         .doc(getIt<FamiliaService>().familia.id)
@@ -69,6 +69,7 @@ class _ProductsPageState extends State<ProductsPage> {
                         .doc(getIt<PrateleiraService>()
                             .prateleirasMap[args.toString()])
                         .collection(produtos_colecao)
+                        .orderBy('nome')
                         .snapshots(),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {

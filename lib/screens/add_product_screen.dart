@@ -51,8 +51,8 @@ class _AddProductPageState extends State<AddProductPage> {
                 height: 30,
               ),
               CustomTextField(
-                  validatorText: "Please insert a valid text",
-                  hintText: "Name of the Product",
+                  validatorText: "O nome não pode estar vazio",
+                  hintText: "Nome do Produto",
                   controller: nameController,
                   onChange: (val) => produto.setNome(val)),
               CustomTextField(
@@ -61,16 +61,19 @@ class _AddProductPageState extends State<AddProductPage> {
                   controller: desController,
                   onChange: (val) => produto.setDescricao(val)),
               CustomTextField(
-                  validatorText: "Please insert a valid text",
+                  validatorText: "Por favor coloque uma qualidade válida",
                   hintText: "Quantidade do produto",
                   controller: qntdController,
                   inputType: TextInputType.number,
                   onChange: (val) => produto.setQuantidade(int.parse(val))),
               CustomTextField(
-                  validatorText: "Please insert a valid text",
+                  validatorText: "A unidade não pode estar vazia",
                   hintText: "Unidade (Ex: Kg, Pacote...)",
                   controller: unidController,
                   onChange: (val) => produto.setUnidade(val)),
+              SizedBox(
+                height: 20,
+              ),
               CustomDropDownTextField(
                 items: _prateleirasMap,
                 currentSelectedValue: "Escolha a Prateleira",
@@ -100,7 +103,7 @@ class _AddProductPageState extends State<AddProductPage> {
                           .whenComplete(() {})
                           .then((value) {
                         print(value);
-                        globalScaffoldKey.currentState.showSnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

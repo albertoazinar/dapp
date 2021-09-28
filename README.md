@@ -39,6 +39,8 @@ If you own a Android device, please try it out and give some feedback, specialy 
 - [x] Delete product
 - [x] Rules to put in a "to buy list"
 - [x] Estimated prices and "to buy list" with estimated value to spend
+- [ ] Sub-shelves to a product that can have multiple brands/types
+
 
 
 

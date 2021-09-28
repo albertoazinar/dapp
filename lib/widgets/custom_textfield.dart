@@ -37,7 +37,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               style: TextStyle(color: Colors.blueGrey),
             )),
         Container(
-          margin: EdgeInsets.only(bottom: 30, left: 12, right: 12),
+          margin: EdgeInsets.only(bottom: 20, left: 12, right: 12),
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
               border: Border.all(color: Colors.blueGrey),

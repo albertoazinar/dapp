@@ -36,7 +36,8 @@ class _CustomDropDownTextFieldState extends State<CustomDropDownTextField> {
             ? SizedBox()
             : Container(
                 // width: widget.width / 1.2,
-                margin: EdgeInsets.only(bottom: 10, left: 12, right: 12),
+                margin:
+                    EdgeInsets.only(top: 10, bottom: 10, left: 12, right: 12),
                 child: Text(
                   widget.label,
                   style: TextStyle(color: Colors.blueGrey),
