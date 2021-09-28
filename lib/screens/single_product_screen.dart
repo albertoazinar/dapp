@@ -51,7 +51,8 @@ class _SingleProductPageState extends State<SingleProductPage> {
               children: [
                 Container(
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(top:0,left: heightScreen(context) / 20),
+                  padding:
+                      EdgeInsets.only(top: 0, left: heightScreen(context) / 20),
                   height: heightScreen(context) / 10,
                   width: widthScreen(context),
                   decoration: BoxDecoration(
@@ -140,7 +141,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                                 color: Colors.blueGrey,
                               ),
                               Text(
-                                  '${widget.produto.pUnit.toString()}MZN/${widget.produto.unidade}',
+                                  '${widget.produto.pUnit.toString()}0MZN/${widget.produto.unidade}',
                                   style: TextStyle(
                                       fontSize: widthScreen(context) / 28,
                                       color: Colors.blueGrey)),

@@ -40,8 +40,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
     qntdController.text = widget.produto.quantidade.toString();
     unidController.text = widget.produto.unidade;
     disponivelController.text = widget.produto.disponivel.toString();
-    priceController.text =
-        widget.produto.pUnit != null ? widget.produto.pUnit.toString() : null;
+    priceController.text = widget.produto.pUnit != null
+        ? widget.produto.pUnit.toString().replaceAll('.0', '')
+        : null;
     super.initState();
   }
 
@@ -64,23 +65,23 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 height: 30,
               ),
               CustomTextField(
-                  label: 'Nome',
-                  validatorText: "Please insert a valid text",
-                  hintText: "Name of the Product",
+                  label: 'Nome do Produto',
+                  validatorText: "O nome não pode estar vazio",
+                  hintText: 'John Doe',
                   controller: nameController,
                   onChange: (val) => widget.produto.setNome(val)),
               CustomTextField(
                   label: 'Descrição',
                   // validatorText: "Please insert a valid text",
-                  hintText: "Descrição",
+                  hintText: 'Coloque algo super específico para sua casa',
                   controller: desController,
                   onChange: (val) {
                     if (val.isNotEmpty) widget.produto.setDescricao(val);
                   }),
               CustomTextField(
                   label: 'Quantidade do Produto (Total)',
-                  validatorText: "Please insert a valid text",
-                  hintText: "Quantidade do produto",
+                  validatorText: "Por favor coloque uma qualidade válida",
+                  hintText: '2',
                   controller: qntdController,
                   inputType: TextInputType.number,
                   onChange: (val) {
@@ -89,8 +90,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   }),
               CustomTextField(
                 label: 'Quantidade do Produto (Disponível)',
-                validatorText: "Please insert a valid text",
-                hintText: "Quantidade do produto disponível",
+                validatorText: "A unidade não pode estar vazia",
+                hintText: "Quantidade do Produto Disponível",
                 controller: disponivelController,
                 inputType: TextInputType.number,
                 validator: (val) {
@@ -102,9 +103,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 },
               ),
               CustomTextField(
-                  label: 'Detalhes (Ex: Kg, Pacote...)',
-                  validatorText: "Please insert a valid text",
-                  hintText: "Unidade (Ex: Kg, Pacote...)",
+                  label: 'Unidade (Ex: Kg, Pacote...)',
+                  validatorText: "A unidade não pode estar vazia",
+                  hintText: "Ex: Kg, Pacote, Caixa, etc",
                   controller: unidController,
                   onChange: (val) {
                     if (val.isNotEmpty) widget.produto.setUnidade(val);
@@ -112,7 +113,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               CustomTextField(
                   label: 'Preço unitário (Estimativa)',
                   // validatorText: "Please insert a valid text",
-                  hintText: "Preço unitário (Estimativa)",
+                  hintText: "1000",
                   controller: priceController,
                   inputType: TextInputType.number,
                   onChange: (val) {

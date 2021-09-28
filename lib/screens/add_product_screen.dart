@@ -3,6 +3,7 @@ import 'package:despensa/services/prateleira_service.dart';
 import 'package:despensa/services/produto_service.dart';
 import 'package:despensa/utils/AppPhoneSize.dart';
 import 'package:despensa/utils/GetIt.dart';
+import 'package:despensa/utils/string_extension.dart';
 import 'package:despensa/widgets/custom_appBar.dart';
 import 'package:despensa/widgets/custom_dropdown.dart';
 import 'package:despensa/widgets/custom_textfield.dart';
@@ -23,6 +24,7 @@ class _AddProductPageState extends State<AddProductPage> {
   TextEditingController desController = TextEditingController();
   TextEditingController qntdController = TextEditingController();
   TextEditingController unidController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
 
   ProdutosServices produtosServices;
   Produto produto = Produto.empty();
@@ -52,30 +54,47 @@ class _AddProductPageState extends State<AddProductPage> {
               ),
               CustomTextField(
                   validatorText: "O nome não pode estar vazio",
-                  hintText: "Nome do Produto",
+                  hintText: 'Insira o nome do Produto',
+                  label: "Nome do Produto",
                   controller: nameController,
+                  isOptional: false,
                   onChange: (val) => produto.setNome(val)),
               CustomTextField(
                   // validatorText: "Please insert a valid text",
-                  hintText: "Descrição",
+                  label: "Descrição",
+                  hintText: 'Coloque algo super específico para sua casa',
                   controller: desController,
                   onChange: (val) => produto.setDescricao(val)),
               CustomTextField(
+                  label: "Quantidade do produto",
                   validatorText: "Por favor coloque uma qualidade válida",
-                  hintText: "Quantidade do produto",
+                  hintText: 'Número total esperado em estoque',
                   controller: qntdController,
+                  isOptional: false,
                   inputType: TextInputType.number,
                   onChange: (val) => produto.setQuantidade(int.parse(val))),
               CustomTextField(
+                  label: 'Unidade',
                   validatorText: "A unidade não pode estar vazia",
-                  hintText: "Unidade (Ex: Kg, Pacote...)",
+                  hintText: "Ex: Kg, Pacote, Caixa, etc",
+                  isOptional: false,
                   controller: unidController,
                   onChange: (val) => produto.setUnidade(val)),
-              SizedBox(
-                height: 20,
-              ),
+              CustomTextField(
+                  label: 'Preço unitário (Estimativa)',
+                  // validatorText: "Please insert a valid text",
+                  hintText: "Valor Unitário do Produto",
+                  controller: priceController,
+                  inputType: TextInputType.number,
+                  onChange: (val) {
+                    produto.setPunit(double.parse(val));
+                  }),
+              // SizedBox(
+              //   height: 20,
+              // ),
               CustomDropDownTextField(
                 items: _prateleirasMap,
+                label: 'Prateleira',
                 currentSelectedValue: "Escolha a Prateleira",
                 width: widthScreen(context),
                 onChange: (value) => produto.setPrateleira(value),
@@ -94,7 +113,8 @@ class _AddProductPageState extends State<AddProductPage> {
                   onPressed: () {
                     if (formKey.currentState.validate()) {
                       produto.setDisponivel(produto.quantidade);
-                      produto.setPunit(0);
+                      produto.setNome(produto.nome.capitalize());
+                      if (produto.pUnit == null) produto.setPunit(0);
                       produtosServices = ProdutosServices(
                           getIt<PrateleiraService>()
                               .prateleirasMap[produto.prateleira]);

@@ -4,7 +4,7 @@ class CustomTextField extends StatefulWidget {
   String validatorText, hintText, label;
   void Function(String value) onChange;
   void Function(String value) validator;
-  bool isPasswordField;
+  bool isPasswordField, isOptional;
   TextInputType inputType;
   TextEditingController controller;
 
@@ -13,6 +13,7 @@ class CustomTextField extends StatefulWidget {
       @required this.hintText,
       @required this.onChange,
       this.isPasswordField = false,
+      this.isOptional = true,
       this.inputType,
       this.controller,
       this.validator,
@@ -32,10 +33,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
       children: [
         Container(
             margin: EdgeInsets.only(bottom: 10, left: 12, right: 12),
-            child: Text(
-              widget.label ?? '',
+            child: RichText(
+                text: TextSpan(
+              text: widget.label ?? '',
               style: TextStyle(color: Colors.blueGrey),
-            )),
+              children: [
+                TextSpan(
+                  text: widget.isOptional ? '' : '*',
+                ),
+              ],
+            ))),
         Container(
           margin: EdgeInsets.only(bottom: 20, left: 12, right: 12),
           padding: EdgeInsets.all(8),
