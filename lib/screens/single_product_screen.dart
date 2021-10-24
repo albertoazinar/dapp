@@ -65,7 +65,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                 ),
                 IconButton(
                   icon: Icon(Icons.edit),
-                  onPressed: () => Navigator.push(
+                  onPressed: () => Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>

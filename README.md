@@ -40,6 +40,9 @@ If you own a Android device, please try it out and give some feedback, specialy 
 - [x] Rules to put in a "to buy list"
 - [x] Estimated prices and "to buy list" with estimated value to spend
 - [ ] Sub-shelves to a product that can have multiple brands/types
+- [x] Share list in 3rd party apps
+- [x] Allow user to automatically restock a product from "to buy list"
+- [ ] Allow user to use different currencies based on his preferences
 
 
 

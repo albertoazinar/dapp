@@ -47,8 +47,7 @@ class _CreateFamilyScreenState extends State<CreateFamilyScreen> {
                 width: widthScreen(context) / 1.2,
                 child: TextFormField(
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Nome da Família"),
+                      border: OutlineInputBorder(), labelText: "Nome do Lar"),
                   onChanged: (value) {
                     familia.setNome(value);
                   },

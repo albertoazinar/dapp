@@ -66,7 +66,7 @@ class _DashboardState extends State<Dashboard> {
                   alignment: Alignment.topRight,
                   children: [
                     IconButton(
-                        icon: Icon(Icons.settings),
+                        icon: Icon(Icons.settings_outlined),
                         onPressed: () =>
                             Navigator.pushNamed(context, settings_screen)),
                     Padding(
@@ -95,7 +95,7 @@ class _DashboardState extends State<Dashboard> {
                                     style: TextStyle(fontSize: 25),
                                   ),
                                   familyName != null
-                                      ? Text("Família $familyName")
+                                      ? Text("Lar $familyName")
                                       : SizedBox(),
                                 ],
                               ),
@@ -152,7 +152,7 @@ class _DashboardState extends State<Dashboard> {
                                   style: TextStyle(
                                       fontSize: 20, color: Colors.black),
                                 ),
-                                leading: Icon(Icons.amp_stories),
+                                leading: Icon(Icons.amp_stories_outlined),
                                 subtitle: Divider(
                                   thickness: 2,
                                 ),
@@ -172,12 +172,12 @@ class _DashboardState extends State<Dashboard> {
           primaryIconExpand: Icons.add,
           primaryIconCollapse: Icons.clear,
           secondaryIconsList: [
-            Icons.article_sharp,
-            Icons.amp_stories,
+            Icons.local_grocery_store_outlined,
+            Icons.amp_stories_outlined,
           ],
           secondaryIconsText: [
-            "Produto",
-            "Prateleira",
+            "Adicionar Produto",
+            "Adicionar Prateleira",
           ],
           secondaryIconsOnPress: [
             () => Navigator.push(

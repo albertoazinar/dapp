@@ -89,7 +89,7 @@ class ProdutosServices extends ChangeNotifier {
   Future<String> updateProduto(Produto produto) async {
     //com base na coleção pegamos todos os dados que nela existem, que retorna
     //QuerySnapshot e usando o mesmo para iterar pelos documentos dentro dele
-
+    log('ps.dart ' + prateleira);
     CollectionReference prods = await familias
         .doc(getIt<FamiliaService>().familia.id)
         .collection(prateleiras_colecao)

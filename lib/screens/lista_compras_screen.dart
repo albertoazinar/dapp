@@ -1,11 +1,16 @@
 import 'package:despensa/models/Produto.dart';
+import 'package:despensa/screens/single_product_screen.dart';
 import 'package:despensa/services/ListaComprasController.dart';
+import 'package:despensa/services/prateleira_service.dart';
+import 'package:despensa/services/produto_service.dart';
 import 'package:despensa/utils/AppPhoneSize.dart';
 import 'package:despensa/utils/GetIt.dart';
 import 'package:despensa/widgets/compraItem.dart';
 import 'package:despensa/widgets/custom_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:share/share.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class ListaComprasScreen extends StatefulWidget {
   const ListaComprasScreen({Key key}) : super(key: key);
@@ -17,7 +22,8 @@ class ListaComprasScreen extends StatefulWidget {
 class _ListaComprasScreenState extends State<ListaComprasScreen> {
   String familyName;
   ObservableList items = getIt<ListaComprasController>().listaDeCompra;
-
+  ProdutosServices produtosServices;
+  String sharableList = '';
   // @override
   // void initState() {
   //   getIt<UserState>().readFamilyId().then((value) {
@@ -34,13 +40,19 @@ class _ListaComprasScreenState extends State<ListaComprasScreen> {
   Widget build(BuildContext context) {
     double total = 0;
     for (Produto prod in items) {
+      int qntd = prod.quantidade - prod.disponivel;
+      double subtotal = 0;
       if (prod.pUnit != null) {
-        int qntd = prod.quantidade - prod.disponivel;
-        print(total);
-
-        total = total + (prod.pUnit * qntd);
+        // print(total);
+        subtotal = prod.pUnit * qntd;
+        total = total + subtotal;
       }
+      sharableList += '- ';
+      sharableList +=
+          '${prod.nome}\n Quant: $qntd ${prod.unidade}| Preço Unit.: ${prod.pUnit ?? '0.0'}0| Subt.: ${subtotal}0MZN';
+      sharableList += '\n';
     }
+    sharableList += '\nTotal: ${total}0MZN';
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -48,17 +60,17 @@ class _ListaComprasScreenState extends State<ListaComprasScreen> {
         actions: [
           Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.only(right: 30),
-              child: RichText(
-                text: TextSpan(
-                    style: TextStyle(fontSize: widthScreen(context) / 40),
-                    text: 'Total\n',
-                    children: [
-                      TextSpan(
-                        text: '${total}0MZN',
-                        style: TextStyle(fontSize: widthScreen(context) / 30),
-                      )
-                    ]),
+              margin: EdgeInsets.only(right: 15),
+              child: IconButton(
+                icon: Icon(
+                  !UniversalPlatform.isIOS
+                      ? Icons.share_outlined
+                      : Icons.ios_share,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Share.share(sharableList);
+                },
               ))
         ],
       ),
@@ -66,6 +78,28 @@ class _ListaComprasScreenState extends State<ListaComprasScreen> {
         physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: [
+            Container(
+                height: 40,
+                color: Colors.blueGrey,
+                alignment: Alignment.centerRight,
+                child: Container(
+                  margin: EdgeInsets.only(right: 30),
+                  child: RichText(
+                    text: TextSpan(
+                        style: TextStyle(
+                          fontSize: widthScreen(context) / 40,
+                        ),
+                        text: 'Total\n',
+                        children: [
+                          TextSpan(
+                            text: '${total}0MZN',
+                            style:
+                                TextStyle(fontSize: widthScreen(context) / 30),
+                          )
+                        ]),
+                  ),
+                )),
+            Divider(),
             Container(
                 height: heightScreen(context) / 1.2,
                 margin: EdgeInsets.all(0),
@@ -76,7 +110,9 @@ class _ListaComprasScreenState extends State<ListaComprasScreen> {
                   itemBuilder: (context, int index) {
                     Produto produto = items[index];
                     int qntd = produto.quantidade - produto.disponivel;
-
+                    produtosServices = ProdutosServices(
+                        getIt<PrateleiraService>()
+                            .prateleirasMap[produto.prateleira]);
                     return new ListTile(
                       title: Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
@@ -95,12 +131,43 @@ class _ListaComprasScreenState extends State<ListaComprasScreen> {
                           pTotal: produto.pUnit != null
                               ? '${produto.pUnit * qntd}0MZN'
                               : '--'),
+                      trailing: Container(
+                        alignment: Alignment.center,
+                        width: widthScreen(context) / 5.5,
+                        height: double.infinity,
+                        child: Center(
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              primary: Colors.blueGrey[400],
+                              padding: EdgeInsets.all(0),
+                            ),
+                            child: Text('Repor'),
+                            onPressed: () {
+                              setState(() {
+                                produto.setDisponivel(produto.quantidade);
+                                produtosServices
+                                    .updateProduto(produto)
+                                    .whenComplete(() {})
+                                    .then((value) {
+                                  setState(() {
+                                    getIt<ListaComprasController>()
+                                        .removeProductItem(produto);
+                                  });
+                                });
+                              });
+                            },
+                          ),
+                        ),
+                      ),
                       isThreeLine: false,
+                      // enabled: false,
                       onTap: () {
-                        // =>
-                        //     Navigator.pushNamed(
-                        //         context, produtos_screen,
-                        //         arguments: produto.nome)
+                        //   // =>
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SingleProductPage(produto)));
                       },
                     );
                   },

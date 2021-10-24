@@ -15,28 +15,27 @@ class CompraItem extends StatelessWidget {
       crossAxisAlignment: WrapCrossAlignment.start,
       children: [
         Container(
-          width: 60,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Unid',
-              ),
-              Text(
-                descricao,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: TextStyle(color: Colors.black),
-              )
-            ],
-          ),
-        ),
-        SizedBox(
-          width: 12,
-        ),
+            width: 60,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [Text('Quant'), singleItemTitle(qntd)],
+            )),
+        // SizedBox(
+        //   width: 2,
+        // ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text('Quant'), singleItemTitle(qntd)],
+          children: [
+            Text(
+              'Unid',
+            ),
+            Text(
+              descricao,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: TextStyle(color: Colors.black),
+            )
+          ],
         ),
         SizedBox(
           width: 12,

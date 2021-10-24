@@ -23,14 +23,17 @@ Widget buildCardButton(int index,
                 alignment: Alignment.topCenter,
                 children: [
                   Icon(
-                    Icons.local_grocery_store,
-                    size: 48,
+                    Icons.local_grocery_store_outlined,
+                    size: 50,
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 7),
+                    padding: EdgeInsets.only(top: 9),
                     child: Text(
                       index.toString(),
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.blueGrey,
+                          fontWeight: FontWeight.w700),
                       //
                     ),
                   ),

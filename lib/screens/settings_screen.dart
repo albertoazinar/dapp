@@ -255,12 +255,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         }),
                   ),
                   ListTile(
-                    title: Text('Convidar para Família'),
+                    title: Text('Convidar para Lar'),
                     leading: Icon(Icons.share),
                     onTap: () {
                       Share.share(
-                          'Olá,\nConvido-o a fazer parte da minha '
-                          'família para gestão do rancho, use este código '
+                          'Olá,\nConvido-o a fazer parte do meu '
+                          'lar para gestão do rancho, use este código '
                           'após fazer o login [${getIt<FamiliaService>().familia.id}]',
                           subject: app_link);
                     },

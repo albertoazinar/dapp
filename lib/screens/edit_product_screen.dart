@@ -1,4 +1,5 @@
 import 'package:despensa/models/Produto.dart';
+import 'package:despensa/screens/single_product_screen.dart';
 import 'package:despensa/services/prateleira_service.dart';
 import 'package:despensa/services/produto_service.dart';
 import 'package:despensa/utils/AppPhoneSize.dart';
@@ -7,7 +8,9 @@ import 'package:despensa/utils/constantes.dart';
 import 'package:despensa/widgets/custom_appBar.dart';
 import 'package:despensa/widgets/custom_dropdown.dart';
 import 'package:despensa/widgets/custom_textfield.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class EditProductScreen extends StatefulWidget {
   Produto produto;
@@ -113,7 +116,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
               CustomTextField(
                   label: 'Preço unitário (Estimativa)',
                   // validatorText: "Please insert a valid text",
-                  hintText: "1000",
+                  hintText: "Ex:1000",
                   controller: priceController,
                   inputType: TextInputType.number,
                   onChange: (val) {
@@ -155,101 +158,159 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               return Container(
                                 height: 50,
                                 width: MediaQuery.of(context).size.width,
-                                child: AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  title: Center(child: Text('APAGAR PRODUTO')),
-                                  content: Text(
-                                      'Esta ação é irreversível, deseja mesmo apagar?'),
-                                  actions: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        ButtonTheme(
-                                          height: 40,
-                                          minWidth: 30,
-                                          child: Container(
-                                            margin: EdgeInsets.only(right: 12),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                ElevatedButton(
-                                                    style: ButtonStyle(
-                                                        shape: MaterialStateProperty.all<
-                                                                OutlinedBorder>(
-                                                            RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
-                                                        )),
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all<Color>(
-                                                                    Colors
-                                                                        .white)),
-                                                    child: Text(
-                                                      'SIM',
-                                                      style: TextStyle(
-                                                          color: Colors.red),
-                                                    ),
-                                                    onPressed: () {
-                                                      getIt<ProdutosServices>()
-                                                          .deleteUser(
-                                                              widget.produto.id)
-                                                          .whenComplete(() {})
-                                                          .then((value) {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                SnackBar(
-                                                          content: Text(value),
-                                                          duration: Duration(
-                                                              seconds: 4),
-                                                        ));
-                                                        Navigator.of(context)
-                                                            .popUntil(ModalRoute
-                                                                .withName(
-                                                                    produtos_screen));
-                                                      });
-
-                                                      // setState((){qntdMinimaCtrl = });
-                                                    }),
-                                                SizedBox(
-                                                  width:
-                                                      widthScreen(context) / 40,
-                                                ),
-                                                ElevatedButton(
-                                                    child: Text(
-                                                      'CANCELAR',
-                                                      style: TextStyle(
-                                                          color: Colors.white),
-                                                    ),
-                                                    style: ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStateProperty
-                                                                .all<Color>(Colors
-                                                                    .blueGrey),
-                                                        shape: MaterialStateProperty.all<
-                                                                OutlinedBorder>(
-                                                            RoundedRectangleBorder(
+                                child: !UniversalPlatform.isIOS
+                                    ? AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        title: Center(
+                                            child: Text('APAGAR PRODUTO')),
+                                        content: Text(
+                                            'Esta ação é irreversível, deseja mesmo apagar?'),
+                                        actions: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              ButtonTheme(
+                                                height: 40,
+                                                minWidth: 30,
+                                                child: Container(
+                                                  margin: EdgeInsets.only(
+                                                      right: 12),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      ElevatedButton(
+                                                          style: ButtonStyle(
+                                                              shape: MaterialStateProperty.all<
+                                                                      OutlinedBorder>(
+                                                                  RoundedRectangleBorder(
                                                                 borderRadius:
-                                                                    BorderRadius.circular(
-                                                                        10)))),
-                                                    onPressed: () =>
-                                                        Navigator.pop(context)),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              )),
+                                                              backgroundColor:
+                                                                  MaterialStateProperty.all<
+                                                                          Color>(
+                                                                      Colors
+                                                                          .white)),
+                                                          child: Text(
+                                                            'SIM',
+                                                            style: TextStyle(
+                                                                color:
+                                                                    Colors.red),
+                                                          ),
+                                                          onPressed: () {
+                                                            getIt<ProdutosServices>()
+                                                                .deleteUser(
+                                                                    widget
+                                                                        .produto
+                                                                        .id)
+                                                                .whenComplete(
+                                                                    () {})
+                                                                .then((value) {
+                                                              ScaffoldMessenger
+                                                                      .of(
+                                                                          context)
+                                                                  .showSnackBar(
+                                                                      SnackBar(
+                                                                content:
+                                                                    Text(value),
+                                                                duration:
+                                                                    Duration(
+                                                                        seconds:
+                                                                            4),
+                                                              ));
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .popUntil(ModalRoute
+                                                                      .withName(
+                                                                          produtos_screen));
+                                                            });
+
+                                                            // setState((){qntdMinimaCtrl = });
+                                                          }),
+                                                      SizedBox(
+                                                        width: widthScreen(
+                                                                context) /
+                                                            40,
+                                                      ),
+                                                      ElevatedButton(
+                                                          child: Text(
+                                                            'CANCELAR',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                          style: ButtonStyle(
+                                                              backgroundColor:
+                                                                  MaterialStateProperty
+                                                                      .all<Color>(Colors
+                                                                          .blueGrey),
+                                                              shape: MaterialStateProperty.all<
+                                                                      OutlinedBorder>(
+                                                                  RoundedRectangleBorder(
+                                                                      borderRadius: BorderRadius.circular(
+                                                                          10)))),
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                  context)),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      )
+                                    : CupertinoAlertDialog(
+                                        title: Center(
+                                            child: Text('APAGAR PRODUTO')),
+                                        content: Text(
+                                            'Esta ação é irreversível, deseja mesmo apagar?'),
+                                        actions: [
+                                          CupertinoDialogAction(
+                                              child: Text(
+                                                'SIM',
+                                                style: TextStyle(
+                                                    color: Colors.red),
+                                              ),
+                                              onPressed: () {
+                                                getIt<ProdutosServices>()
+                                                    .deleteUser(
+                                                        widget.produto.id)
+                                                    .whenComplete(() {})
+                                                    .then((value) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                    content: Text(value),
+                                                    duration:
+                                                        Duration(seconds: 4),
+                                                  ));
+                                                  Navigator.of(context)
+                                                      .popUntil(
+                                                          ModalRoute.withName(
+                                                              produtos_screen));
+                                                });
+
+                                                // setState((){qntdMinimaCtrl = });
+                                              }),
+                                          CupertinoDialogAction(
+                                              child: Text(
+                                                'CANCELAR',
+                                                //   style: TextStyle(
+                                                //       color: Colors.white),
+                                              ),
+                                              onPressed: () =>
+                                                  Navigator.pop(context)),
+                                        ],
+                                      ),
                               );
                             });
                       },
@@ -274,16 +335,22 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           )),
                       onPressed: () {
                         if (formKey.currentState.validate()) {
-                          widget.produto.setDisponivel(
-                              int.parse(disponivelController.text));
-                          produtosServices = ProdutosServices(
-                              getIt<PrateleiraService>()
-                                  .prateleirasMap[widget.produto.prateleira]);
-                          produtosServices
-                              .updateProduto(widget.produto)
-                              .whenComplete(() {})
-                              .then((value) {
-                            Navigator.pop(context);
+                          setState(() {
+                            widget.produto.setDisponivel(
+                                int.parse(disponivelController.text));
+                            produtosServices = ProdutosServices(
+                                getIt<PrateleiraService>()
+                                    .prateleirasMap[widget.produto.prateleira]);
+                            produtosServices
+                                .updateProduto(widget.produto)
+                                .whenComplete(() {})
+                                .then((value) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SingleProductPage(widget.produto)));
+                            });
                           });
                         }
                       },

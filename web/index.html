@@ -15,13 +15,13 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="description" content="App to simplify control of needed stash at home">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="dapp">
-  <meta name="google-signin-client_id" content="947278651915-b0nqosn14m1gdjbr9mbc0og7mfkj8pos.apps.googleusercontent.com">
+  <meta name="google-signin-client_id" content="252005392436-homr1iiq1j5fqkh4g30uvf8pr8hff35l.apps.googleusercontent.com">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
 
@@ -34,24 +34,27 @@
 <body>
 
   <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
 
   <script>
-      var firebaseConfig = {
-        apiKey: "...",
-        authDomain: "dapp.firebaseapp.com",
-        databaseURL: "https://dapp.firebaseio.com",
-        projectId: "dapp",
-        storageBucket: "dapp.appspot.com",
-        messagingSenderId: "...",
-        appId: "1:...:web:...",
-        measurementId: "G-...",
-      };
+       firebaseConfig = {
+  apiKey: "AIzaSyCYDkUzpqqnkHCk2EYBicMtsaLrznkC8hI",
+  authDomain: "despensa-1bed3.firebaseapp.com",
+  databaseURL: "https://despensa-1bed3.firebaseio.com",
+  projectId: "despensa-1bed3",
+  storageBucket: "despensa-1bed3.appspot.com",
+  messagingSenderId: "252005392436",
+  appId: "1:252005392436:web:74a467574407a07f83aa61",
+  measurementId: "G-222N5H3V53"
+};
 
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
   </script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+
 
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
