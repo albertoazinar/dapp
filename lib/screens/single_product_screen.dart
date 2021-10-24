@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:despensa/models/Produto.dart';
 import 'package:despensa/screens/edit_product_screen.dart';
+import 'package:despensa/services/ListaComprasController.dart';
 import 'package:despensa/services/produto_service.dart';
 import 'package:despensa/utils/AppPhoneSize.dart';
+import 'package:despensa/utils/GetIt.dart';
 import 'package:despensa/widgets/change_total_dialog.dart';
 import 'package:despensa/widgets/custom_appBar.dart';
 import 'package:flutter/material.dart';
@@ -259,6 +261,8 @@ class _SingleProductPageState extends State<SingleProductPage> {
                       .updateTotal(
                           widget.produto.nome, widget.produto.quantidade)
                       .then((value) {
+                    getIt<ListaComprasController>()
+                        .removeProductItem(widget.produto);
                     // print(value);
                   });
                 }
