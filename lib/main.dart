@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeChanger>(builder: (context, theme, _) {
       return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'DAPP',
         theme: ThemeData(
             primarySwatch: Colors.blueGrey,
             visualDensity: VisualDensity.adaptivePlatformDensity),
