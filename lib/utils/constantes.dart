@@ -1,3 +1,5 @@
+import 'package:universal_platform/universal_platform.dart';
+
 String dashboard_screen = '/dashboard_screen';
 String produtos_screen = '/produtos_screen';
 String enter_family_screen = '/enter_family_screen';
@@ -12,3 +14,4 @@ String prateleiras_colecao = "prateleiras";
 String produtos_colecao = "produtos";
 String familias_colecao = "familias";
 String app_link = "";
+final String currency = UniversalPlatform.isWeb ? '.00MZN' : '0MZN';

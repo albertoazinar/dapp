@@ -5,6 +5,7 @@ import 'package:despensa/services/prateleira_service.dart';
 import 'package:despensa/services/produto_service.dart';
 import 'package:despensa/utils/AppPhoneSize.dart';
 import 'package:despensa/utils/GetIt.dart';
+import 'package:despensa/utils/constantes.dart';
 import 'package:despensa/widgets/compraItem.dart';
 import 'package:despensa/widgets/custom_appBar.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +93,7 @@ class _ListaComprasScreenState extends State<ListaComprasScreen> {
                         text: 'Total\n',
                         children: [
                           TextSpan(
-                            text: '${total}0MZN',
+                            text: '${total}$currency',
                             style:
                                 TextStyle(fontSize: widthScreen(context) / 30),
                           )
@@ -126,10 +127,10 @@ class _ListaComprasScreenState extends State<ListaComprasScreen> {
                           descricao: produto.unidade ?? '',
                           qntd: qntd.toString(),
                           pUnit: produto.pUnit != null
-                              ? '${produto.pUnit}0MZN'
+                              ? '${produto.pUnit}$currency'
                               : '--',
                           pTotal: produto.pUnit != null
-                              ? '${produto.pUnit * qntd}0MZN'
+                              ? '${produto.pUnit * qntd}$currency'
                               : '--'),
                       trailing: Container(
                         alignment: Alignment.center,

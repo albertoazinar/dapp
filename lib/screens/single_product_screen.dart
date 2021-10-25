@@ -6,6 +6,7 @@ import 'package:despensa/services/ListaComprasController.dart';
 import 'package:despensa/services/produto_service.dart';
 import 'package:despensa/utils/AppPhoneSize.dart';
 import 'package:despensa/utils/GetIt.dart';
+import 'package:despensa/utils/constantes.dart';
 import 'package:despensa/widgets/change_total_dialog.dart';
 import 'package:despensa/widgets/custom_appBar.dart';
 import 'package:flutter/material.dart';
@@ -143,7 +144,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                                 color: Colors.blueGrey,
                               ),
                               Text(
-                                  '${widget.produto.pUnit.toString()}0MZN/${widget.produto.unidade}',
+                                  '${widget.produto.pUnit.toString()}$currency/${widget.produto.unidade}',
                                   style: TextStyle(
                                       fontSize: widthScreen(context) / 28,
                                       color: Colors.blueGrey)),
