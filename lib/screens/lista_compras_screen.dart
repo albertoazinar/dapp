@@ -10,7 +10,7 @@ import 'package:despensa/widgets/compraItem.dart';
 import 'package:despensa/widgets/custom_appBar.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class ListaComprasScreen extends StatefulWidget {

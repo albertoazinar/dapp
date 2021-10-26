@@ -43,7 +43,13 @@ If you own a Android device, please try it out and give some feedback, specialy 
 - [x] Share list in 3rd party apps
 - [x] Allow user to automatically restock a product from "to buy list"
 - [ ] Allow user to use different currencies based on his preferences
-
+- [ ] Delete a household
+- [ ] Global "to buy list"
+- [ ] Temporary Product classification
+    
+    Ex: Something you need to buy when going to groceries but it's not an every month expense
+- [ ] Implement a invalidated Products Screens for after a temporary product has been bought not 
+  be permanently deleted unless the user explicitly asks for.
 
 
 
