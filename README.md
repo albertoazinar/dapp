@@ -50,6 +50,10 @@ If you own a Android device, please try it out and give some feedback, specialy 
     Ex: Something you need to buy when going to groceries but it's not an every month expense
 - [ ] Implement a invalidated Products Screens for after a temporary product has been bought not 
   be permanently deleted unless the user explicitly asks for.
+- [ ] Save list for future analysis
+
+    Ex: This month I spent more/less than the previous one
+- [ ] Create a dashboard to track expenses bases on the saved lists
 
 
 
