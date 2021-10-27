@@ -20,9 +20,10 @@ Find screenshots below
 - ![products page](./screenshots/produts_screen.PNG)
 - ![add shelve](./screenshots/add_shelve.PNG)
 
- [More Images Here](./screenshots/)
+ [More Images Here](./screenshots)
 
-If you own a Android device, please try it out and give some feedback, specialy through contribuitions here on Github, but you can also find me through [my twitter](https://twitter.com/lsambo02).
+If you own a [Android device], please try it out and give some feedback, specialy through contribuitions here on Github, but you can also find me through [my twitter](https://twitter.com/lsambo02).
+On [iOS] you can [ use the deployed demo and add to your Home Screen ](http://despensa-1bed3.web.app/)
 
 
 ### Use #dapp for public tweets
