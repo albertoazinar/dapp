@@ -28,9 +28,9 @@ If you own a Android device, please try it out and give some feedback, specialy 
 ### Use #dapp for public tweets
 
 ## ToDo
-- [x] Create a family
-- [x] Invite someone to a family
-- [x] Enter a family by invite
+- [x] Create a household
+- [x] Invite someone to a household
+- [x] Enter a household by invite
 - [x] Create shelves
 - [x] Create products and add to shelve
 - [x] See products in specific shelve
@@ -54,7 +54,7 @@ If you own a Android device, please try it out and give some feedback, specialy 
 
     Ex: This month I spent more/less than the previous one
 - [ ] Create a dashboard to track expenses bases on the saved lists
-
+ 
 
 
 
