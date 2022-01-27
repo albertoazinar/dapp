@@ -20,7 +20,7 @@ class NotificationService {
       );
   }
 
-  void showNotification(String produto) {
+  void showNoification(String produto) {
     if (!UniversalPlatform.isWeb)
       flutterLocalNotificationsPlugin.show(
           0,

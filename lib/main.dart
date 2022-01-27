@@ -69,6 +69,7 @@ class MyApp extends StatelessWidget {
     return Consumer<ThemeChanger>(builder: (context, theme, _) {
       return MaterialApp(
         title: 'DAPP',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primarySwatch: Colors.blueGrey,
             visualDensity: VisualDensity.adaptivePlatformDensity),
