@@ -10,7 +10,7 @@ import 'package:despensa/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 
 class AddProductPage extends StatefulWidget {
-  const AddProductPage({Key key}) : super(key: key);
+  const AddProductPage({Key? key}) : super(key: key);
 
   @override
   _AddProductPageState createState() => _AddProductPageState();
@@ -26,7 +26,7 @@ class _AddProductPageState extends State<AddProductPage> {
   TextEditingController unidController = TextEditingController();
   TextEditingController priceController = TextEditingController();
 
-  ProdutosServices produtosServices;
+  late ProdutosServices produtosServices;
   Produto produto = Produto.empty();
 
   @override
@@ -60,7 +60,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   isOptional: false,
                   onChange: (val) => produto.setNome(val)),
               CustomTextField(
-                  // validatorText: "Please insert a valid text",
+                  validatorText: "Please insert a valid text",
                   label: "Descrição",
                   hintText: 'Coloque algo super específico para sua casa',
                   controller: desController,
@@ -82,7 +82,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   onChange: (val) => produto.setUnidade(val)),
               CustomTextField(
                   label: 'Preço unitário (Estimativa)',
-                  // validatorText: "Please insert a valid text",
+                  validatorText: "Please insert a valid text",
                   hintText: "Valor Unitário do Produto",
                   controller: priceController,
                   inputType: TextInputType.number,
@@ -111,7 +111,7 @@ class _AddProductPageState extends State<AddProductPage> {
                             borderRadius: BorderRadius.circular(10)),
                       )),
                   onPressed: () {
-                    if (formKey.currentState.validate()) {
+                    if (formKey.currentState!.validate()) {
                       produto.setDisponivel(produto.quantidade);
                       produto.setNome(produto.nome.capitalize());
                       if (produto.pUnit == null) produto.setPunit(0);
@@ -143,7 +143,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         );
                         //
                       });
-                      formKey.currentState.reset();
+                      formKey.currentState!.reset();
                       nameController.text = '';
                       desController.text = '';
                       qntdController.text = '';

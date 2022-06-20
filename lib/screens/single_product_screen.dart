@@ -14,7 +14,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class SingleProductPage extends StatefulWidget {
   Produto produto;
-  SingleProductPage(this.produto, {Key key}) : super(key: key);
+  SingleProductPage(this.produto, {Key? key}) : super(key: key);
 
   @override
   _SingleProductPageState createState() =>

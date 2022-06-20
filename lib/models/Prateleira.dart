@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Shelve with ChangeNotifier {
-  String _nome;
+  late String _nome;
 
   Shelve(this._nome);
 

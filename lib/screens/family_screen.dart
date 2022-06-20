@@ -47,7 +47,7 @@ class _FamilyScreenState extends State<FamilyScreen> {
                         );
                       }
                       return ListView.builder(
-                          itemCount: snapshot.data.length,
+                          itemCount: snapshot.data!.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Card(
                               elevation: 1,
@@ -58,14 +58,14 @@ class _FamilyScreenState extends State<FamilyScreen> {
                               child: new ListTile(
                                 title: Center(
                                   child: new Text(
-                                    snapshot.data.keys.toList()[index],
+                                    snapshot.data!.keys.toList()[index],
                                     style: TextStyle(
                                         fontSize: 20, color: Colors.black),
                                   ),
                                 ),
                                 onTap: () {
                                   getIt<UserState>().saveFamilyId(
-                                      snapshot.data.values.toList()[index]);
+                                      snapshot.data!.values.toList()[index]);
                                   // print(value);
 
                                   setState(() {

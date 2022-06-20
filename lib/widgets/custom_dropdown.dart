@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class CustomDropDownTextField extends StatefulWidget {
   Map<String, dynamic> items;
   dynamic currentSelectedValue;
-  String label;
+  String? label;
   double width;
   var validacao, onChange, widthFactor, fontSize;
-  Key textKey;
+  Key? textKey;
 
   CustomDropDownTextField(
-      {Key key,
-      @required this.items,
-      @required this.currentSelectedValue,
+      {Key? key,
+      required this.items,
+      required this.currentSelectedValue,
       this.label,
-      @required this.width,
+      required this.width,
       this.validacao,
       this.onChange,
       this.widthFactor,
@@ -38,7 +38,7 @@ class _CustomDropDownTextFieldState extends State<CustomDropDownTextField> {
                 // width: widget.width / 1.2,
                 margin: EdgeInsets.only(bottom: 10, left: 12, right: 12),
                 child: Text(
-                  widget.label,
+                  widget.label!,
                   style: TextStyle(color: Colors.blueGrey),
                 ),
               ),

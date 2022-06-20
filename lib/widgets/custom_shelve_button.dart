@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 Widget buildCardButton(int index,
-    {String title,
-    Function() action,
-    String valueKey,
-    String total,
-    String disponivel}) {
+    {String? title,
+    Function()? action,
+    String? valueKey,
+    String? total,
+    String? disponivel}) {
   return Card(
     elevation: 3,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -44,7 +44,7 @@ Widget buildCardButton(int index,
               ),
               Center(
                 child: Text(
-                  title,
+                  title!,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
                 ),

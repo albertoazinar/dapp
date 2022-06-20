@@ -32,7 +32,7 @@ class ThemeChanger with ChangeNotifier {
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );
 
-  ThemeData _themeData;
+  late ThemeData _themeData;
   ThemeData getTheme() => _themeData;
 
   ThemeNotifier() {

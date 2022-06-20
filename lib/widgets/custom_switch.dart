@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 
 class CustomSwitch extends StatefulWidget {
-  double width;
-  String label;
-  bool val;
-  var onToggle;
-  bool isRow = false;
+  late double width;
+  late String label;
+  late bool val;
+  late var onToggle;
+  late bool isRow = false;
 
   CustomSwitch(
-      {Key key,
-      this.width,
-      this.label,
-      this.val,
+      {Key? key,
+      required this.width,
+      required this.label,
+      required this.val,
       this.onToggle,
       this.isRow = false})
       : super(key: key);

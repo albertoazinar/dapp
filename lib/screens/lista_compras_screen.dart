@@ -14,16 +14,16 @@ import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class ListaComprasScreen extends StatefulWidget {
-  const ListaComprasScreen({Key key}) : super(key: key);
+  const ListaComprasScreen({Key? key}) : super(key: key);
 
   @override
   _ListaComprasScreenState createState() => _ListaComprasScreenState();
 }
 
 class _ListaComprasScreenState extends State<ListaComprasScreen> {
-  String familyName;
+  late String familyName;
   ObservableList items = getIt<ListaComprasController>().listaDeCompra;
-  ProdutosServices produtosServices;
+  late ProdutosServices produtosServices;
   String sharableList = '';
   // @override
   // void initState() {
@@ -50,7 +50,7 @@ class _ListaComprasScreenState extends State<ListaComprasScreen> {
       }
       sharableList += '- ';
       sharableList +=
-          '${prod.nome}\n Quant: $qntd ${prod.unidade}| Preço Unit.: ${prod.pUnit ?? '0.0'}0| Subt.: ${subtotal}0MZN';
+          '${prod.nome}\n Quant: $qntd ${prod.unidade}| Preço Unit.: ${prod.pUnit}0| Subt.: ${subtotal}0MZN';
       sharableList += '\n';
     }
     sharableList += '\nTotal: ${total}0MZN';

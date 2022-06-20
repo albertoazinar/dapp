@@ -7,9 +7,9 @@ class AddShelve extends StatelessWidget {
   double width;
   Shelve prateleira = Shelve.empty();
   TextEditingController minionNameController = TextEditingController();
-  GlobalKey<ScaffoldState> scaffoldKey;
+  late GlobalKey<ScaffoldState> scaffoldKey;
   AddShelve({
-    @required this.width,
+    required this.width,
   });
 
   @override

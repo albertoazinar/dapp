@@ -18,13 +18,15 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   NotificationService notificationService = NotificationService();
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
 
   @override
   void initState() {
     if (!UniversalPlatform.isWeb) {
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        RemoteNotification notification = message.notification;
-        AndroidNotification android = message.notification?.android;
+        RemoteNotification? notification = message.notification;
+        AndroidNotification? android = message.notification?.android;
         if (notification != null && android != null) {
           flutterLocalNotificationsPlugin.show(
               notification.hashCode,
@@ -44,18 +46,18 @@ class _LoginScreenState extends State<LoginScreen> {
 
       FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
         print('A new onMessageOpenedApp event was published!');
-        RemoteNotification notification = message.notification;
-        AndroidNotification android = message.notification?.android;
+        RemoteNotification? notification = message.notification;
+        AndroidNotification? android = message.notification?.android;
         if (notification != null && android != null) {
           showDialog(
               context: context,
               builder: (_) {
                 return AlertDialog(
-                  title: Text(notification.title),
+                  title: Text(notification.title!),
                   content: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text(notification.body)],
+                      children: [Text(notification.body!)],
                     ),
                   ),
                 );
@@ -83,45 +85,61 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 30,
               ),
-              // Form(
-              //     child: Column(
-              //   children: [
-              //     Container(
-              //       width: textfieldWidth,
-              //       child: TextFormField(
-              //         decoration: InputDecoration(
-              //           border: OutlineInputBorder(),
-              //           labelText: "Email",
-              //         ),
-              //       ),
-              //     ),
-              //     Container(
-              //       margin: EdgeInsets.only(top: 10),
-              //       width: textfieldWidth,
-              //       child: TextFormField(
-              //         decoration: InputDecoration(
-              //             border: OutlineInputBorder(), labelText: "Password"),
-              //       ),
-              //     ),
-              //   ],
-              // )),
-              // SizedBox(
-              //   height: 30,
-              // ),
-              // Container(
-              //   width: 150,
-              //   margin: EdgeInsets.only(bottom: 15),
-              //   child: RaisedButton(
-              //     child: Text(
-              //       'ENTRAR',
-              //       style: TextStyle(color: Colors.blueGrey[400]),
-              //     ),
-              //     onPressed: null,
-              //     shape: RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(10)),
-              //   ),
-              // ),
-              // Text("OR"),
+              Form(
+                  child: Column(
+                children: [
+                  Container(
+                    width: widthScreen(context) / 1.2,
+                    child: TextFormField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Email",
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    width: widthScreen(context) / 1.2,
+                    child: TextFormField(
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(), labelText: "Password"),
+                    ),
+                  ),
+                ],
+              )),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                width: 150,
+                margin: EdgeInsets.only(bottom: 15),
+                child: ElevatedButton(
+                  child: Text(
+                    'ENTRAR',
+                    style: TextStyle(color: Colors.blueGrey[400]),
+                  ),
+                  onPressed: () => getIt<AuthService>()
+                      .signInWithGoogle()
+                      .whenComplete(() {})
+                      .then((value) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(value),
+                    ));
+
+                    notificationService.askPermission();
+                    if (getIt<AuthService>().isEmailVerified())
+                      Navigator.pushNamed(context, family_screen);
+                  }),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+              Text("OR"),
               Container(
                 width: widthScreen(context) / 1.5,
                 margin: EdgeInsets.only(top: 15),
@@ -145,6 +163,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(10)),
                 ),
               ),
+              TextButton(
+                  onPressed: () => getIt<AuthService>()
+                      .register(emailController.text, passwordController.text),
+                  child: Text(
+                    'Not Registered yet? Sign Up!',
+                    style: TextStyle(color: Colors.black45),
+                  ))
             ],
           ),
         ),

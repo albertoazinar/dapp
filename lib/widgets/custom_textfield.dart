@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
-  String validatorText, hintText, label;
-  void Function(String value) onChange;
-  void Function(String value) validator;
-  bool isPasswordField, isOptional;
-  TextInputType inputType;
-  TextEditingController controller;
+  String? validatorText, hintText, label;
+  void Function(String value)? onChange;
+  String Function(String? value)? validator;
+  bool? isPasswordField, isOptional;
+  TextInputType? inputType;
+  TextEditingController? controller;
 
   CustomTextField(
-      {@required this.validatorText,
-      @required this.hintText,
-      @required this.onChange,
+      {required this.validatorText,
+      required this.hintText,
+      required this.onChange,
       this.isPasswordField = false,
       this.isOptional = true,
       this.inputType,
@@ -39,7 +39,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               style: TextStyle(color: Colors.blueGrey),
               children: [
                 TextSpan(
-                  text: widget.isOptional ? '' : '*',
+                  text: widget.isOptional! ? '' : '*',
                 ),
               ],
             ))),
@@ -50,10 +50,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
               border: Border.all(color: Colors.blueGrey),
               borderRadius: BorderRadius.circular(10)),
           child: TextFormField(
-            obscureText: widget.isPasswordField ? isObscureText : false,
+            obscureText: widget.isPasswordField! ? isObscureText : false,
             validator: widget.validator ??
                 (val) {
-                  return val.isEmpty ? widget.validatorText : null;
+                  return val!.isEmpty ? widget.validatorText! : null;
                 },
             keyboardType: widget.inputType,
             style: TextStyle(color: Colors.blueGrey),
@@ -65,7 +65,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 enabledBorder: InputBorder.none,
                 errorBorder: InputBorder.none,
                 disabledBorder: InputBorder.none,
-                suffixIcon: widget.isPasswordField
+                suffixIcon: widget.isPasswordField!
                     ? GestureDetector(
                         onTap: () {
                           setState(() {

@@ -9,19 +9,19 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
   String message = '';
-  String _userId;
-  Utilizador _utilizador;
+  late String _userId;
+  late Utilizador _utilizador;
 
   Future register(String email, String password) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      message = userCredential.additionalUserInfo.username;
-      User user = auth.currentUser;
+      message = userCredential.additionalUserInfo!.username!;
+      User? user = auth.currentUser;
       if (!isEmailVerified()) {
-        await user.sendEmailVerification();
+        await user!.sendEmailVerification();
       }
-      return message ?? 'Registo Efectuado com Sucesso';
+      return message == '' ? 'Registo Efectuado com Sucesso' : message;
     } on FirebaseAuthException catch (e) {
       print(e);
       if (e.code == 'weak-password') {
@@ -41,14 +41,15 @@ class AuthService with ChangeNotifier {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
-      message = userCredential.additionalUserInfo.username;
+      message = userCredential.additionalUserInfo!.username!;
       if (isEmailVerified()) {
-        _userId = userCredential.user.uid;
+        _userId = userCredential.user!.uid;
         message = 'Login Efectuado com Sucesso\nParabéns, ganhou acesso à Dapp';
         notifyListeners();
       }
-      return message ??
-          'Login Efectuado com Sucesso\nAguardando Confirmação de email';
+      return message == ''
+          ? 'Registo Efectuado com Sucesso\nAguardando Confirmação de email'
+          : message;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         message = 'Utilizador com email fornecido não encontrado';
@@ -62,11 +63,11 @@ class AuthService with ChangeNotifier {
   Future signInWithGoogle() async {
     try {
       //aciona o serviço de autenticação google
-      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+          await googleUser!.authentication;
       //criação de credencias para autenticar o utilizador na aplicação
-      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+      final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
@@ -78,7 +79,7 @@ class AuthService with ChangeNotifier {
           .then((value) {
         FamiliaService familiaService = FamiliaService();
 
-        _userId = value.user.uid;
+        _userId = value.user!.uid;
         familiaService.createUser(_userId);
         print(_userId);
         message = 'Login Efectuado com Sucesso\nParabéns, ganhou acesso à Dapp';
@@ -91,12 +92,12 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  String get userId => auth.currentUser.uid;
-  User get user => auth.currentUser;
+  String get userId => auth.currentUser!.uid;
+  User? get user => auth.currentUser;
 
   bool isEmailVerified() {
-    User user = auth.currentUser;
-    return user.emailVerified;
+    User? user = auth.currentUser;
+    return user!.emailVerified;
   }
 
   void signOut() {

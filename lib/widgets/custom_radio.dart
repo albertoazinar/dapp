@@ -6,10 +6,10 @@ class CustomRadio extends StatefulWidget {
   double width;
 
   CustomRadio(
-      {@required this.width,
-      @required this.val,
-      @required this.groupVal,
-      @required this.valueLabel,
+      {required this.width,
+      required this.val,
+      required this.groupVal,
+      required this.valueLabel,
       this.onChange});
 
   @override

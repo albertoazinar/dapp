@@ -11,7 +11,7 @@ class EnterFamilyScreen extends StatefulWidget {
 }
 
 class _EnterFamilyScreenState extends State<EnterFamilyScreen> {
-  String familiaId;
+  late String familiaId;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -63,7 +63,7 @@ class _EnterFamilyScreenState extends State<EnterFamilyScreen> {
                       // style: TextStyle(color: Colors.blueGrey[400]),
                     ),
                     onPressed: () {
-                      if (_formKey.currentState.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         getIt<FamiliaService>()
                             .addFamiliaToUser(familiaId)
                             .whenComplete(() {})

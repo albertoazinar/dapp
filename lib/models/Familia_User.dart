@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FamiliaUser with ChangeNotifier {
-  String _userId, _familiaId;
+  late String _userId, _familiaId;
 
   FamiliaUser(this._userId, this._familiaId);
 
@@ -20,8 +20,8 @@ class FamiliaUser with ChangeNotifier {
   }
 
   FamiliaUser.fromJson(Map<String, String> json) {
-    this._userId = json['userId'];
-    this._familiaId = json['familiaId'];
+    this._userId = json['userId']!;
+    this._familiaId = json['familiaId']!;
   }
 
   Map<String, String> toJson() {

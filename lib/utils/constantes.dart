@@ -6,6 +6,7 @@ String enter_family_screen = '/enter_family_screen';
 String create_family_screen = '/create_family_screen';
 String family_screen = '/family_screen';
 String login_screen = '/login_screen';
+String signup_screen = '/login_screen';
 String settings_screen = '/settings_screen';
 String lista_compras_screen = '/lista_compras_screen';
 String edit_product_screen = '/edit_product_screen';

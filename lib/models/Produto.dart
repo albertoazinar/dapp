@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Produto with ChangeNotifier {
-  String _id, _nome, _descricao, _unidade, _prateleira;
-  int _quantidade, _disponivel;
-  double _pUnit;
+  late String _id, _nome, _descricao, _unidade, _prateleira;
+  late int _quantidade, _disponivel;
+  late double _pUnit;
 
   Produto(this._id, this._nome, this._descricao, this._unidade,
       this._prateleira, this._quantidade, this._disponivel, this._pUnit);
@@ -12,7 +12,7 @@ class Produto with ChangeNotifier {
 
   double get pUnit => _pUnit;
 
-  int setPunit(double value) {
+  setPunit(double value) {
     _pUnit = value;
     notifyListeners();
   }
@@ -26,7 +26,7 @@ class Produto with ChangeNotifier {
 
   int get disponivel => _disponivel;
 
-  int setDisponivel(int value) {
+  setDisponivel(int value) {
     _disponivel = value;
     notifyListeners();
   }

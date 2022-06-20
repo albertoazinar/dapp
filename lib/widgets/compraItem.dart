@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CompraItem extends StatelessWidget {
-  String descricao, qntd, pUnit, pTotal;
+  String? descricao, qntd, pUnit, pTotal;
 
   CompraItem(
       {@required this.descricao,
@@ -18,7 +18,7 @@ class CompraItem extends StatelessWidget {
             width: 60,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text('Quant'), singleItemTitle(qntd)],
+              children: [Text('Quant'), singleItemTitle(qntd!)],
             )),
         // SizedBox(
         //   width: 2,
@@ -30,7 +30,7 @@ class CompraItem extends StatelessWidget {
               'Unid',
             ),
             Text(
-              descricao,
+              descricao!,
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
               style: TextStyle(color: Colors.black),
@@ -42,14 +42,14 @@ class CompraItem extends StatelessWidget {
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text('Preco Unt.'), singleItemTitle(pUnit)],
+          children: [Text('Preco Unt.'), singleItemTitle(pUnit!)],
         ),
         SizedBox(
           width: 12,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text('Total'), singleItemTitle(pTotal)],
+          children: [Text('Total'), singleItemTitle(pTotal!)],
         )
       ],
     );

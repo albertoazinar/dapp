@@ -14,14 +14,14 @@ import 'package:despensa/widgets/no_data.dart';
 import 'package:flutter/material.dart';
 
 class ProductsPage extends StatefulWidget {
-  const ProductsPage({Key key}) : super(key: key);
+  const ProductsPage({Key? key}) : super(key: key);
 
   @override
   _ProductsPageState createState() => _ProductsPageState();
 }
 
 class _ProductsPageState extends State<ProductsPage> {
-  ProdutosServices produtosService;
+  late ProdutosServices produtosService;
   Map<String, dynamic> _produtosMap = Map<String, dynamic>();
 
   @override
@@ -34,7 +34,7 @@ class _ProductsPageState extends State<ProductsPage> {
   @override
   Widget build(BuildContext context) {
     // getIt<ProdutosServices>().setListaDeCompra([]);
-    final args = ModalRoute.of(context).settings.arguments;
+    final args = ModalRoute.of(context)?.settings.arguments;
     produtosService = ProdutosServices(args.toString());
     print(args.toString());
     getIt<PrateleiraService>().setPrateleiraId(args.toString());
@@ -98,7 +98,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
                       // _produtosMap = snapshot.data as Map<String, dynamic>;
                       // log('hummm ${Produto.fromJson(snapshot.data)}');
-                      return snapshot.data.docs.length == 0
+                      return snapshot.data!.docs.length == 0
                           ? NoData()
                           : GridView.count(
                               physics: AlwaysScrollableScrollPhysics(),
@@ -106,7 +106,7 @@ class _ProductsPageState extends State<ProductsPage> {
                               crossAxisSpacing: widthScreen(context) / 50,
                               mainAxisSpacing: widthScreen(context) / 50,
                               crossAxisCount: 3,
-                              children: snapshot.data.docs
+                              children: snapshot.data!.docs
                                   .map((DocumentSnapshot document) {
                                 _produtosMap =
                                     document.data() as Map<String, dynamic>;

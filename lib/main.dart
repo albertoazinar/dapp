@@ -6,6 +6,7 @@ import 'package:despensa/screens/lista_compras_screen.dart';
 import 'package:despensa/screens/login.dart';
 import 'package:despensa/screens/products_screen.dart';
 import 'package:despensa/screens/settings_screen.dart';
+import 'package:despensa/screens/signup.dart';
 import 'package:despensa/services/auth_service.dart';
 import 'package:despensa/services/familia_service.dart';
 import 'package:despensa/services/firebase_conn.dart';
@@ -76,6 +77,7 @@ class MyApp extends StatelessWidget {
         home: checkLoginStatus(),
         routes: {
           login_screen: (context) => LoginScreen(),
+          signup_screen: (context) => SignUpScreen(),
           dashboard_screen: (context) => Dashboard(),
           produtos_screen: (context) => ProductsPage(),
           enter_family_screen: (context) => EnterFamilyScreen(),

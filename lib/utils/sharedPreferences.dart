@@ -1,8 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SharedUserState {
-  String value;
-  Future<String> readFamilyId();
+  late String value;
+  Future<String?> readFamilyId();
   void saveFamilyId(value);
   void delete();
   // Future<dynamic> readTheme(String key);
@@ -12,11 +12,11 @@ abstract class SharedUserState {
 }
 
 class UserState implements SharedUserState {
-  String value;
+  late String value;
   final key = 'user_state';
 
   @override
-  Future<String> readFamilyId() async {
+  Future<String?> readFamilyId() async {
     final prefs = await SharedPreferences.getInstance();
     final value = prefs.getString(key) ?? null;
     print(value);

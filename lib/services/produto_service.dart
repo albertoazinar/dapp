@@ -11,8 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'prateleira_service.dart';
 
 class ProdutosServices extends ChangeNotifier {
-  String prateleira;
-  String _msg = '';
+  late String prateleira;
+  late String _msg = '';
 
   ProdutosServices(this.prateleira);
 
@@ -123,7 +123,7 @@ class ProdutosServices extends ChangeNotifier {
       print(querySnapshot.docs);
       return querySnapshot.docs.forEach((doc) {
         if (doc['nome'] == nome) {
-          return familias
+          familias
               .doc(getIt<FamiliaService>().familia.id)
               .collection(prateleiras_colecao)
               .doc(_prateleiraId)
@@ -152,7 +152,7 @@ class ProdutosServices extends ChangeNotifier {
       print(querySnapshot.docs);
       return querySnapshot.docs.forEach((doc) {
         if (doc['nome'] == nome) {
-          return produtos_colection
+          produtos_colection
               .doc(doc.id) //pegar o id do documento que se pretende actualizar
               .update({'quantidade': novaQuantidade})
               .then((value) => "Agora o seu novo total é $novaQuantidade")

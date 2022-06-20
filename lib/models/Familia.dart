@@ -2,9 +2,9 @@ import 'package:despensa/models/Prateleira.dart';
 import 'package:flutter/material.dart';
 
 class Familia with ChangeNotifier {
-  String _id, _nome, _owner;
-  List<Shelve> _prateleiras;
-  int _qntdMinima;
+  late String _id, _nome, _owner;
+  late List<Shelve> _prateleiras;
+  late int _qntdMinima;
 
   Familia(
       this._id, this._nome, this._owner, this._prateleiras, this._qntdMinima);
@@ -38,7 +38,7 @@ class Familia with ChangeNotifier {
     notifyListeners();
   }
 
-  int setQntdMinima(int qntdMinimaCtrl) {
+  setQntdMinima(int qntdMinimaCtrl) {
     _qntdMinima = qntdMinimaCtrl;
     notifyListeners();
   }

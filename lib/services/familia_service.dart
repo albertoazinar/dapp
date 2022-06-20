@@ -18,7 +18,7 @@ class FamiliaService with ChangeNotifier {
 
   // FamiliaService authService = FamiliaService();
 
-  String _familiaId;
+  late String _familiaId;
   Familia _familia = Familia.empty();
 
   //funcao lambda pra permitir acesso a coleção de outras classes
@@ -40,8 +40,8 @@ class FamiliaService with ChangeNotifier {
     return await familias.where('nome', isEqualTo: queryString).get();
   }
 
-  Future<String> createUser(userId) {
-    users.doc(getIt<AuthService>().userId).get().then((user) {
+  Future<String?> createUser(userId) {
+    return users.doc(getIt<AuthService>().userId).get().then((user) {
       if (!user.exists) {
         return users
             .doc(getIt<AuthService>().userId)
@@ -106,7 +106,7 @@ class FamiliaService with ChangeNotifier {
     });
   }
 
-  Future<String> checkUser(String familiaName) {
+  Future<String?> checkUser(String familiaName) {
     return users
         .doc(getIt<AuthService>().userId)
         .get()
@@ -117,9 +117,7 @@ class FamiliaService with ChangeNotifier {
         if (querySnapshot.docs.isNotEmpty) {
           String familyId = querySnapshot.docs.first.id;
           return (familiasList.contains(familyId)) ? familyId : null;
-        } else {
-          return null;
-        }
+        } else {}
       });
     });
   }
@@ -153,9 +151,10 @@ class FamiliaService with ChangeNotifier {
   //           "Parece que teve problemas com o último Produto:\n $error");
   // }
 
-  Future<Familia> setFamilia(familyId) async {
+  Future<Familia?> setFamilia(familyId) async {
     DocumentSnapshot documentSnapshot = await familias.doc(familyId).get();
-    Map<String, dynamic> familyMap = documentSnapshot.data();
+    Map<String, dynamic>? familyMap =
+        documentSnapshot.data() as Map<String, dynamic>;
     _familia = await Familia.fromJson(familyMap);
     _familia.setId(familyId);
     notifyListeners();

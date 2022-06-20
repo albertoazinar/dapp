@@ -6,10 +6,10 @@ class CustomRadioGroup extends StatefulWidget {
   List<Widget> radioItems;
 
   CustomRadioGroup(
-      {Key key,
-      @required this.width,
-      @required this.label,
-      @required this.radioItems})
+      {Key? key,
+      required this.width,
+      required this.label,
+      required this.radioItems})
       : super(key: key);
 
   @override

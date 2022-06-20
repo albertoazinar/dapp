@@ -16,14 +16,14 @@ import 'package:speed_dial_fab/speed_dial_fab.dart';
 import 'add_product_screen.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key key}) : super(key: key);
+  const Dashboard({Key? key}) : super(key: key);
 
   @override
   _DashboardState createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
-  String familyName;
+  late String familyName;
   String user = 'user';
 
   @override
@@ -80,7 +80,7 @@ class _DashboardState extends State<Dashboard> {
                                 margin: EdgeInsets.only(right: 10),
                                 child: ClipOval(
                                   child: Image.network(
-                                    getIt<AuthService>().user.photoURL,
+                                    getIt<AuthService>().user!.photoURL!,
                                     fit: BoxFit.fill,
                                     height: 50,
                                     width: 50,
@@ -91,7 +91,7 @@ class _DashboardState extends State<Dashboard> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Olá, ${getIt<AuthService>().user.displayName ?? user} ",
+                                    "Olá, ${getIt<AuthService>().user!.displayName ?? user} ",
                                     style: TextStyle(fontSize: 25),
                                   ),
                                   familyName != null
@@ -134,14 +134,15 @@ class _DashboardState extends State<Dashboard> {
                       );
                     }
 
-                    return snapshot.data.docs.length == 0
+                    return snapshot.data!.docs.length == 0
                         ? NoData()
                         : ListView(
-                            children: snapshot.data.docs
+                            children: snapshot.data!.docs
                                 .map((DocumentSnapshot document) {
-                              // _prateleirasMap =
-                              //     document.data() as Map<String, dynamic>;
-                              Shelve shelve = Shelve.fromJson(document.data());
+                              Map<String, dynamic> _prateleirasMap =
+                                  document.data()! as Map<String, dynamic>;
+
+                              Shelve shelve = Shelve.fromJson(_prateleirasMap);
 
                               getIt<PrateleiraService>()
                                   .addPrateleirasTemp(shelve.nome, document.id);

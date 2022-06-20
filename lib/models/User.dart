@@ -1,5 +1,5 @@
 class Utilizador {
-  List<String> familias;
+  late List<String> familias;
 
   Utilizador();
 

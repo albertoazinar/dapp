@@ -25,7 +25,7 @@ Find screenshots below
 ### How to test
 
 - If you own a Android device, [please try it out](https://github.com/LSambo02/dapp/blob/main/build/app/outputs/flutter-apk/app-release.apk) and give some feedback, specialy through contribuitions here on Github, but you can also find me through [my twitter](https://twitter.com/lsambo02).
-- On iOS you can [ use the deployed demo and add to your Home Screen ](http://despensa-1bed3.web.app/) and enjoy
+- On iOS you can [use the deployed demo and add to your Home Screen ](http://despensa-1bed3.web.app/) and enjoy
 
 
 ### Use #dapp for public tweets

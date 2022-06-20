@@ -48,11 +48,11 @@ class PrateleiraService with ChangeNotifier {
         .get();
   }
 
-  String _prateleiraId;
+  String? _prateleiraId;
 
-  String get prateleiraId => _prateleiraId;
+  String get prateleiraId => _prateleiraId!;
 
-  Future<String> setPrateleiraId(nome) {
+  setPrateleiraId(nome) {
     familias
         .doc(getIt<FamiliaService>().familia.id)
         .collection(prateleiras_colecao)

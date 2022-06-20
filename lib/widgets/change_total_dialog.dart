@@ -6,8 +6,8 @@ class ChangeTotal extends StatefulWidget {
   double width;
   Produto produto;
   ChangeTotal({
-    @required this.produto,
-    @required this.width,
+    required this.produto,
+    required this.width,
   });
 
   @override
@@ -16,10 +16,10 @@ class ChangeTotal extends StatefulWidget {
 
 class _ChangeTotalState extends State<ChangeTotal> {
   TextEditingController minionNameController = TextEditingController();
-  GlobalKey<ScaffoldState> scaffoldKey;
+  GlobalKey<ScaffoldState>? scaffoldKey;
   String _errMsg = '';
   int _newTotal = 0;
-  ProdutosServices produtosServices;
+  ProdutosServices? produtosServices;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +80,7 @@ class _ChangeTotalState extends State<ChangeTotal> {
                             } else {
                               widget.produto.setQuantidade(_newTotal);
                               produtosServices
-                                  .updateTotal(widget.produto.nome, _newTotal)
+                                  ?.updateTotal(widget.produto.nome, _newTotal)
                                   .whenComplete(() {})
                                   .then((value) => print(value));
                               Navigator.pop(context);

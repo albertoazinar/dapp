@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class EditProductScreen extends StatefulWidget {
-  Produto produto;
+  late Produto produto;
 
   EditProductScreen();
 
@@ -34,7 +34,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   TextEditingController unidController = TextEditingController();
   TextEditingController priceController = TextEditingController();
 
-  ProdutosServices produtosServices;
+  late ProdutosServices produtosServices;
 
   @override
   void initState() {
@@ -43,9 +43,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
     qntdController.text = widget.produto.quantidade.toString();
     unidController.text = widget.produto.unidade;
     disponivelController.text = widget.produto.disponivel.toString();
-    priceController.text = widget.produto.pUnit != null
+    priceController.text = (widget.produto.pUnit != null
         ? widget.produto.pUnit.toString().replaceAll('.0', '')
-        : null;
+        : null)!;
     super.initState();
   }
 
@@ -75,7 +75,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   onChange: (val) => widget.produto.setNome(val)),
               CustomTextField(
                   label: 'Descrição',
-                  // validatorText: "Please insert a valid text",
+                  validatorText: "Please insert a valid text",
                   hintText: 'Coloque algo super específico para sua casa',
                   controller: desController,
                   onChange: (val) {
@@ -98,12 +98,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 controller: disponivelController,
                 inputType: TextInputType.number,
                 validator: (val) {
-                  if (val.isNotEmpty) {
+                  if (val!.isNotEmpty) {
                     if (int.parse(disponivelController.text) >
                         int.parse(qntdController.text))
                       return 'A quantidade disponível não pode ser maior que o total';
                   }
-                },
+                  return '';
+                }, onChange: (String value) {  },
               ),
               CustomTextField(
                   label: 'Unidade (Ex: Kg, Pacote...)',
@@ -115,7 +116,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   }),
               CustomTextField(
                   label: 'Preço unitário (Estimativa)',
-                  // validatorText: "Please insert a valid text",
+                  validatorText: "Please insert a valid text",
                   hintText: "Ex:1000",
                   controller: priceController,
                   inputType: TextInputType.number,
@@ -334,7 +335,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                           )),
                       onPressed: () {
-                        if (formKey.currentState.validate()) {
+                        if (formKey.currentState!.validate()) {
                           setState(() {
                             widget.produto.setDisponivel(
                                 int.parse(disponivelController.text));
