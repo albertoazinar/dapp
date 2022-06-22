@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyle(color: Colors.blueGrey[400]),
                   ),
                   onPressed: () => getIt<AuthService>()
-                      .signInWithGoogle()
+                      .signIn(emailController.text, passwordController.text)
                       .whenComplete(() {})
                       .then((value) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -164,8 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               TextButton(
-                  onPressed: () => getIt<AuthService>()
-                      .register(emailController.text, passwordController.text),
+                  onPressed: () => Navigator.pushNamed(context, signup_screen),
                   child: Text(
                     'Not Registered yet? Sign Up!',
                     style: TextStyle(color: Colors.black45),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Shelve with ChangeNotifier {
-  late String _nome;
+  String? _nome;
 
   Shelve(this._nome);
 
   Shelve.empty();
 
-  String get nome => _nome;
+  String get nome => _nome!;
 
   setNome(String value) {
     _nome = value;

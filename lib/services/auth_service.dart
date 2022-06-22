@@ -16,12 +16,14 @@ class AuthService with ChangeNotifier {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      message = userCredential.additionalUserInfo!.username!;
-      User? user = auth.currentUser;
+      // message = userCredential.additionalUserInfo!.username!;
+      // User? user = auth.currentUser;
       if (!isEmailVerified()) {
-        await user!.sendEmailVerification();
+        await userCredential.user!.sendEmailVerification();
       }
-      return message == '' ? 'Registo Efectuado com Sucesso' : message;
+      return message == ''
+          ? 'Registo Efectuado com Sucesso, por favor confirme o email'
+          : message;
     } on FirebaseAuthException catch (e) {
       print(e);
       if (e.code == 'weak-password') {
@@ -41,7 +43,7 @@ class AuthService with ChangeNotifier {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
-      message = userCredential.additionalUserInfo!.username!;
+      // message = userCredential.additionalUserInfo!.username!;
       if (isEmailVerified()) {
         _userId = userCredential.user!.uid;
         message = 'Login Efectuado com Sucesso\nParabéns, ganhou acesso à Dapp';

@@ -2,9 +2,10 @@ import 'package:despensa/models/Prateleira.dart';
 import 'package:flutter/material.dart';
 
 class Familia with ChangeNotifier {
-  late String _id, _nome, _owner;
-  late List<Shelve> _prateleiras;
-  late int _qntdMinima;
+  String _id = '';
+  String? _nome, _owner;
+  List<Shelve>? _prateleiras = [];
+  int? _qntdMinima = 0;
 
   Familia(
       this._id, this._nome, this._owner, this._prateleiras, this._qntdMinima);
@@ -17,7 +18,7 @@ class Familia with ChangeNotifier {
     notifyListeners();
   }
 
-  String get nome => _nome;
+  String get nome => _nome!;
 
   setNome(String value) {
     _nome = value;
@@ -31,7 +32,7 @@ class Familia with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Shelve> get prateleiras => _prateleiras;
+  List<Shelve> get prateleiras => _prateleiras!;
 
   setPrateleiras(List<Shelve> value) {
     _prateleiras = value;
@@ -44,16 +45,16 @@ class Familia with ChangeNotifier {
   }
 
   addQntdMinima() {
-    _qntdMinima++;
+    _qntdMinima = _qntdMinima! + 1;
     notifyListeners();
   }
 
   subtractQntdMinima() {
-    _qntdMinima--;
+    _qntdMinima = _qntdMinima! - 1;
     notifyListeners();
   }
 
-  int get qntdMinima => _qntdMinima;
+  int get qntdMinima => _qntdMinima!;
 
   Familia.fromJson(Map<String, dynamic> json) {
     this._id = json["id"];

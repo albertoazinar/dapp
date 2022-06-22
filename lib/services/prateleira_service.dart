@@ -21,7 +21,6 @@ class PrateleiraService with ChangeNotifier {
   };
   CommonServices commonServices = CommonServices();
   Future<String> addShelve(Shelve prateleira) async {
-    //adicionar o objecto em forma de json para a coleção de minions
     bool _alreadyExists = await commonServices.alreadyExists(
         prateleira.nome, prateleiras_colecao);
 

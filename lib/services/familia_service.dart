@@ -155,9 +155,13 @@ class FamiliaService with ChangeNotifier {
     DocumentSnapshot documentSnapshot = await familias.doc(familyId).get();
     Map<String, dynamic>? familyMap =
         documentSnapshot.data() as Map<String, dynamic>;
-    _familia = await Familia.fromJson(familyMap);
+    log('familia_service.dart::: $familyMap');
     _familia.setId(familyId);
+    familyMap['id'] = familyId;
+    _familia = Familia.fromJson(familyMap);
+    log('familia_service.dart::: $familyMap');
     notifyListeners();
+    return _familia;
   }
 
   Familia get familia => _familia;

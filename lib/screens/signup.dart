@@ -124,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       .whenComplete(() {})
                       .then((value) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(value),
+                      content: Text(value.toString()),
                     ));
 
                     notificationService.askPermission();
@@ -139,8 +139,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               TextButton(
-                  onPressed: () => getIt<AuthService>()
-                      .register(emailController.text, passwordController.text),
+                  onPressed: () =>
+                      Navigator.pushReplacementNamed(context, login_screen),
                   child: Text(
                     'Already have a account? Log in!',
                     style: TextStyle(color: Colors.black45),
