@@ -85,61 +85,61 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 30,
               ),
-              Form(
-                  child: Column(
-                children: [
-                  Container(
-                    width: widthScreen(context) / 1.2,
-                    child: TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Email",
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 10),
-                    width: widthScreen(context) / 1.2,
-                    child: TextFormField(
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(), labelText: "Password"),
-                    ),
-                  ),
-                ],
-              )),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                width: 150,
-                margin: EdgeInsets.only(bottom: 15),
-                child: ElevatedButton(
-                  child: Text(
-                    'ENTRAR',
-                    style: TextStyle(color: Colors.blueGrey[400]),
-                  ),
-                  onPressed: () => getIt<AuthService>()
-                      .signIn(emailController.text, passwordController.text)
-                      .whenComplete(() {})
-                      .then((value) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(value),
-                    ));
-
-                    notificationService.askPermission();
-                    if (getIt<AuthService>().isEmailVerified())
-                      Navigator.pushNamed(context, family_screen);
-                  }),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              Text("OR"),
+              // Form(
+              //     child: Column(
+              //   children: [
+              //     Container(
+              //       width: widthScreen(context) / 1.2,
+              //       child: TextFormField(
+              //         controller: emailController,
+              //         decoration: InputDecoration(
+              //           border: OutlineInputBorder(),
+              //           labelText: "Email",
+              //         ),
+              //       ),
+              //     ),
+              //     Container(
+              //       margin: EdgeInsets.only(top: 10),
+              //       width: widthScreen(context) / 1.2,
+              //       child: TextFormField(
+              //         controller: passwordController,
+              //         decoration: InputDecoration(
+              //             border: OutlineInputBorder(), labelText: "Password"),
+              //       ),
+              //     ),
+              //   ],
+              // )),
+              // SizedBox(
+              //   height: 30,
+              // ),
+              // Container(
+              //   width: 150,
+              //   margin: EdgeInsets.only(bottom: 15),
+              //   child: ElevatedButton(
+              //     child: Text(
+              //       'ENTRAR',
+              //       style: TextStyle(color: Colors.blueGrey[400]),
+              //     ),
+              //     onPressed: () => getIt<AuthService>()
+              //         .signIn(emailController.text, passwordController.text)
+              //         .whenComplete(() {})
+              //         .then((value) {
+              //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              //         content: Text(value),
+              //       ));
+              //
+              //       notificationService.askPermission();
+              //       if (getIt<AuthService>().isEmailVerified())
+              //         Navigator.pushNamed(context, family_screen);
+              //     }),
+              //     style: ElevatedButton.styleFrom(
+              //       shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(10),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // Text("OR"),
               Container(
                 width: widthScreen(context) / 1.5,
                 margin: EdgeInsets.only(top: 15),
@@ -163,12 +163,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(10)),
                 ),
               ),
-              TextButton(
-                  onPressed: () => Navigator.pushNamed(context, signup_screen),
-                  child: Text(
-                    'Not Registered yet? Sign Up!',
-                    style: TextStyle(color: Colors.black45),
-                  ))
+              // TextButton(
+              //     onPressed: () => Navigator.pushNamed(context, signup_screen),
+              //     child: Text(
+              //       'Not Registered yet? Sign Up!',
+              //       style: TextStyle(color: Colors.black45),
+              //     ))
             ],
           ),
         ),

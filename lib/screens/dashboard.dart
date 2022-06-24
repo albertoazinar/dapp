@@ -79,20 +79,32 @@ class _DashboardState extends State<Dashboard> {
                               Container(
                                 margin: EdgeInsets.only(right: 10),
                                 child: ClipOval(
-                                    // child: Image.network(
-                                    //   getIt<AuthService>().user!.photoURL!,
-                                    //   fit: BoxFit.fill,
-                                    //   height: 50,
-                                    //   width: 50,
-                                    // ),
-                                    ),
+                                  child: getIt<AuthService>().user!.photoURL !=
+                                          null
+                                      ? Image.network(
+                                          getIt<AuthService>().user!.photoURL!,
+                                          fit: BoxFit.fill,
+                                          height: 50,
+                                          width: 50,
+                                        )
+                                      : Image.asset(
+                                          'assets/person-icon.jpeg',
+                                          fit: BoxFit.fill,
+                                          height: 50,
+                                          width: 50,
+                                        ),
+                                ),
                               ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "Olá, ${getIt<AuthService>().user!.displayName ?? user} ",
-                                    style: TextStyle(fontSize: 25),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Olá, ${getIt<AuthService>().user!.displayName ?? getIt<AuthService>().user!.email} ",
+                                        style: TextStyle(fontSize: 25),
+                                      ),
+                                    ],
                                   ),
                                   // familyName != null
                                   //     ?
