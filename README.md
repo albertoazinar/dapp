@@ -15,10 +15,10 @@ Find screenshots below
 
 ## Screenshots
 
-- ![login](./screenshots/login_screen.PNG)
-- ![dashboard](./screenshots/dashboard.PNG)
-- ![products page](./screenshots/produts_screen.PNG)
-- ![add shelve](./screenshots/add_shelve.PNG)
+- <img src="./screenshots/login_screen.PNG" alt="login_screen" width="200"/>
+- <img src="./screenshots/dashboard.PNG" alt="dashboard" width="200"/>
+- <img src="./screenshots/produts_screen.PNG" alt="produts_screen" width="200"/>
+- <img src="./screenshots/add_shelve.PNG" alt="add_shelve" width="200"/>
 
  [More Images Here](./screenshots)
 
