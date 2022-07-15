@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 
 class Produto with ChangeNotifier {
-  late String _id, _nome, _descricao, _unidade, _prateleira;
-  late int _quantidade, _disponivel;
-  late double _pUnit;
+  String? _id, _nome, _descricao, _unidade, _prateleira;
+  int? _quantidade, _disponivel;
+  double? _pUnit;
 
   Produto(this._id, this._nome, this._descricao, this._unidade,
       this._prateleira, this._quantidade, this._disponivel, this._pUnit);
 
   Produto.empty();
 
-  double get pUnit => _pUnit;
+  double get pUnit => _pUnit!;
 
   setPunit(double value) {
     _pUnit = value;
     notifyListeners();
   }
 
-  String get id => _id;
+  String get id => _id!;
 
   setId(String value) {
     _id = value;
     notifyListeners();
   }
 
-  int get disponivel => _disponivel;
+  int get disponivel => _disponivel!;
 
   setDisponivel(int value) {
     _disponivel = value;
     notifyListeners();
   }
 
-  int get quantidade => _quantidade;
+  int get quantidade => _quantidade!;
 
   setQuantidade(int value) {
     _quantidade = value;
@@ -55,11 +55,11 @@ class Produto with ChangeNotifier {
   get descricao => _descricao;
 
   setDescricao(value) {
-    _descricao = value;
+    _descricao = value ?? '';
     notifyListeners();
   }
 
-  String get nome => _nome;
+  String get nome => _nome!;
 
   setNome(String value) {
     _nome = value;
