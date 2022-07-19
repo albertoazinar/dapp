@@ -94,6 +94,33 @@ class AuthService with ChangeNotifier {
     }
   }
 
+  Future signInWithGoogleWeb() async {
+    try {
+      GoogleAuthProvider googleProvider = GoogleAuthProvider();
+      googleProvider
+          .addScope('https://www.googleapis.com/auth/userinfo.profile');
+      googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+
+      //com a credencial é possivel então efectuar a autenticação do utilizador
+      return await FirebaseAuth.instance
+          .signInWithPopup(googleProvider)
+          .whenComplete(() {})
+          .then((value) {
+        FamiliaService familiaService = FamiliaService();
+
+        _userId = value.user!.uid;
+        familiaService.createUser(_userId);
+        print(_userId);
+        message = 'Login Efectuado com Sucesso\nParabéns, ganhou acesso à Dapp';
+        notifyListeners();
+        return message;
+      });
+      //tratamento de excepções
+    } on FirebaseAuthException catch (e) {
+      return 'Erro ao autenticar conta  \n$e';
+    }
+  }
+
   String get userId => auth.currentUser!.uid;
   User? get user => auth.currentUser;
 

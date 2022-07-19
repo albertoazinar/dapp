@@ -5,11 +5,11 @@ import 'package:despensa/utils/AppPhoneSize.dart';
 import 'package:despensa/utils/GetIt.dart';
 import 'package:despensa/utils/constantes.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:universal_platform/universal_platform.dart';
-// import 'package:flutter/foundation.dart' show kIsWeb;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -145,19 +145,33 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: EdgeInsets.only(top: 15),
                 child: SignInButton(
                   Buttons.Google,
-                  onPressed: () => getIt<AuthService>()
-                      .signInWithGoogle()
-                      .whenComplete(() {})
-                      .then((value) {
-                    print(value);
-                    setState(() {
-                      // _isLoadingGSignIn = false;
-                      // _isDoneSignIn = true;
-                      // _message = value;
-                    });
-                    notificationService.askPermission();
-                    Navigator.pushNamed(context, family_screen);
-                  }),
+                  onPressed: () => kIsWeb
+                      ? getIt<AuthService>()
+                          .signInWithGoogleWeb()
+                          .whenComplete(() {})
+                          .then((value) {
+                          print(value);
+                          setState(() {
+                            // _isLoadingGSignIn = false;
+                            // _isDoneSignIn = true;
+                            // _message = value;
+                          });
+                          notificationService.askPermission();
+                          Navigator.pushNamed(context, family_screen);
+                        })
+                      : getIt<AuthService>()
+                          .signInWithGoogle()
+                          .whenComplete(() {})
+                          .then((value) {
+                          print(value);
+                          setState(() {
+                            // _isLoadingGSignIn = false;
+                            // _isDoneSignIn = true;
+                            // _message = value;
+                          });
+                          notificationService.askPermission();
+                          Navigator.pushNamed(context, family_screen);
+                        }),
                   text: 'ENTRAR COM GOOGLE',
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
