@@ -1,4 +1,5 @@
-import 'package:despensa/models/User.dart';
+import 'dart:developer';
+
 import 'package:despensa/services/familia_service.dart';
 import 'package:despensa/utils/GetIt.dart';
 import 'package:despensa/utils/sharedPreferences.dart';
@@ -10,7 +11,6 @@ class AuthService with ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
   String message = '';
   late String _userId;
-  late Utilizador _utilizador;
 
   Future register(String email, String password) async {
     try {
@@ -99,10 +99,14 @@ class AuthService with ChangeNotifier {
       GoogleAuthProvider googleProvider = GoogleAuthProvider();
       googleProvider
           .addScope('https://www.googleapis.com/auth/userinfo.profile');
-      googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+      // googleProvider
+      //     .addScope('https://www.googleapis.com/auth/contacts.readonly');
+      // googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+
+      log('$googleProvider');
 
       //com a credencial é possivel então efectuar a autenticação do utilizador
-      return await FirebaseAuth.instance
+      return await auth
           .signInWithPopup(googleProvider)
           .whenComplete(() {})
           .then((value) {

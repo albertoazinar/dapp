@@ -65,10 +65,12 @@ class _DashboardState extends State<Dashboard> {
                 child: Stack(
                   alignment: Alignment.topRight,
                   children: [
-                    IconButton(
-                        icon: Icon(Icons.settings_outlined),
-                        onPressed: () =>
-                            Navigator.pushNamed(context, settings_screen)),
+                    SafeArea(
+                      child: IconButton(
+                          icon: Icon(Icons.settings_outlined),
+                          onPressed: () =>
+                              Navigator.pushNamed(context, settings_screen)),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 50.0, left: 10),
                       child: Column(

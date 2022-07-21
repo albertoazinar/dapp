@@ -157,7 +157,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             // _message = value;
                           });
                           notificationService.askPermission();
-                          Navigator.pushNamed(context, family_screen);
+                          value.contains('Erro ao autenticar conta')
+                              ? null
+                              : Navigator.pushNamed(context, family_screen);
                         })
                       : getIt<AuthService>()
                           .signInWithGoogle()

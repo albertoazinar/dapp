@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 
+import '../firebase_options.dart';
+
 Future<void> initializeDefault() async {
-  FirebaseApp app = await Firebase.initializeApp();
-  assert(app != null);
-  print('Initialized default app $app');
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
