@@ -113,9 +113,12 @@ class AuthService with ChangeNotifier {
         FamiliaService familiaService = FamiliaService();
 
         _userId = value.user!.uid;
-        familiaService.createUser(_userId);
-        print(_userId);
-        message = 'Login Efectuado com Sucesso\nParabéns, ganhou acesso à Dapp';
+        familiaService.createUser(_userId).whenComplete(() {
+          print(_userId);
+          message =
+              'Login Efectuado com Sucesso\nParabéns, ganhou acesso à Dapp';
+        });
+
         notifyListeners();
         return message;
       });
