@@ -57,6 +57,8 @@ Find screenshots below
 
     Ex: This month I spent more/less than the previous one
 - [ ] Create a dashboard to track expenses bases on the saved lists
+- [ ] Make it possible to submit the product expiration date when purchasing.
+- [ ] create an alert for products that have already been purchased and that the expiration date is about to expire.
  
 
 
