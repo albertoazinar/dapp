@@ -96,16 +96,20 @@ class ProdutosServices extends ChangeNotifier {
         .doc(prateleira)
         .collection(produtos_colecao);
 
-    prods.doc(produto.id).update(produto.toJson()).whenComplete(() {
-      log(_msg + 'ok');
-      _msg = "${produto.nome} foi actualizado";
-      notifyListeners();
-      log(_msg);
-    }).catchError((error) {
-      _msg = "Oops, parece que não deu pra actualizar:\n $error";
-      notifyListeners();
-    });
-    return msg;
+    return prods
+        .doc(produto.id)
+        .update(produto.toJson())
+        .then((value) =>
+                // log(_msg + 'ok');
+                _msg = "${produto.nome} foi actualizado"
+            // notifyListeners();
+            // log(_msg);
+            )
+        .catchError((error) =>
+                _msg = "Oops, parece que não deu pra actualizar:\n $error"
+            // notifyListeners();
+            );
+    // return msg;
   }
 
   Future updateQuantidade(nome, novaQuantidade) {

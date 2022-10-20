@@ -43,7 +43,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   @override
   void initState() {
     nameController.text = widget.produto.nome;
-    desController.text = widget.produto.descricao;
+    desController.text = widget.produto.descricao ?? '';
     qntdController.text = widget.produto.quantidade.toString();
     unidController.text = widget.produto.unidade;
     qntdMinimaController.text = widget.produto.qntdMinima.toString();
@@ -80,7 +80,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   onChange: (val) => widget.produto.setNome(val)),
               CustomTextField(
                   label: 'Descrição',
-                  validatorText: "Please insert a valid text",
+                  // validatorText: "Please insert a valid text",
                   hintText: 'Coloque algo super específico para sua casa',
                   controller: desController,
                   onChange: (val) {
@@ -347,15 +347,17 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                           )),
-                      onPressed: () {
+                      onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           setState(() {
                             log('edit_product_screen.dart::: ${widget.produto.toJson()}');
                             widget.produto.setDisponivel(
                                 double.parse(disponivelController.text));
+                            // });
                             produtosServices = ProdutosServices(
                                 getIt<PrateleiraService>()
                                     .prateleirasMap[widget.produto.prateleira]);
+                            // String value = await
                             produtosServices
                                 .updateProduto(widget.produto)
                                 .whenComplete(() {})
@@ -379,12 +381,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   // backgroundColor: Colors.blue,
                                 ),
                               );
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SingleProductPage(widget.produto)));
                             });
+
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        SingleProductPage(widget.produto)));
                           });
                         } else {
                           log('yay!');

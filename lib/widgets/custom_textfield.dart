@@ -8,7 +8,7 @@ class CustomTextField extends StatefulWidget {
   TextEditingController? controller;
 
   CustomTextField(
-      {required this.validatorText,
+      {this.validatorText,
       required this.hintText,
       required this.onChange,
       this.isPasswordField = false,
@@ -55,7 +55,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
                     return widget.validatorText;
                   }
                 : (val) {
-                    return val!.isEmpty ? widget.validatorText! : null;
+                    return val!.isEmpty
+                        ? widget.validatorText != null
+                            ? widget.validatorText!
+                            : null
+                        : null;
                   },
             keyboardType: widget.inputType,
             style: TextStyle(color: Colors.blueGrey),

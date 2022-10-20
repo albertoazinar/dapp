@@ -61,7 +61,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   isOptional: false,
                   onChange: (val) => produto.setNome(val)),
               CustomTextField(
-                  validatorText: "Please insert a valid text",
+                  // validatorText: "Please insert a valid text",
                   label: "Descrição",
                   hintText: 'Coloque algo super específico para sua casa',
                   controller: desController,
