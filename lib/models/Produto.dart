@@ -2,13 +2,27 @@ import 'package:flutter/material.dart';
 
 class Produto with ChangeNotifier {
   String? _id, _nome, _descricao, _unidade, _prateleira;
-  int? _quantidade, _disponivel;
-  double? _pUnit;
+  double? _pUnit, _qntdMinima, _disponivel, _quantidade;
 
-  Produto(this._id, this._nome, this._descricao, this._unidade,
-      this._prateleira, this._quantidade, this._disponivel, this._pUnit);
+  Produto(
+      this._id,
+      this._nome,
+      this._descricao,
+      this._unidade,
+      this._prateleira,
+      this._quantidade,
+      this._disponivel,
+      this._qntdMinima,
+      this._pUnit);
 
   Produto.empty();
+
+  double get qntdMinima => _qntdMinima!;
+
+  setQntdMinima(double value) {
+    _qntdMinima = value;
+    notifyListeners();
+  }
 
   double get pUnit => _pUnit!;
 
@@ -24,16 +38,16 @@ class Produto with ChangeNotifier {
     notifyListeners();
   }
 
-  int get disponivel => _disponivel!;
+  double get disponivel => _disponivel!;
 
-  setDisponivel(int value) {
+  setDisponivel(double value) {
     _disponivel = value;
     notifyListeners();
   }
 
-  int get quantidade => _quantidade!;
+  double get quantidade => _quantidade!;
 
-  setQuantidade(int value) {
+  setQuantidade(double value) {
     _quantidade = value;
     notifyListeners();
   }
@@ -70,10 +84,14 @@ class Produto with ChangeNotifier {
     _nome = json["nome"];
     _descricao = json["descricao"];
     _unidade = json["unidade"];
-    _quantidade = json["quantidade"];
+    _quantidade =
+        json["quantidade"] != null ? json["quantidade"].toDouble() : 0.0;
     _prateleira = json["prateleira"];
-    _disponivel = json["disponivel"];
-    _pUnit = json["pUnitario"] != null ? json["pUnitario"].toDouble() : null;
+    _disponivel =
+        json["disponivel"] != null ? json["disponivel"].toDouble() : 0.0;
+    _qntdMinima =
+        json["qntdMinima"] != null ? json["qntdMinima"].toDouble() : 0.0;
+    _pUnit = json["pUnitario"] != null ? json["pUnitario"].toDouble() : 0.0;
   }
 
   Map<String, dynamic> toJson() {
@@ -84,6 +102,7 @@ class Produto with ChangeNotifier {
     data["quantidade"] = this._quantidade;
     data["prateleira"] = this._prateleira;
     data["disponivel"] = this._disponivel;
+    data["qntdMinima"] = this._qntdMinima;
     data["pUnitario"] = this._pUnit;
 
     return data;

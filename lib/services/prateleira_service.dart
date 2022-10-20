@@ -100,4 +100,15 @@ class PrateleiraService with ChangeNotifier {
   }
 
   Map<String, dynamic> get prateleirasMap => _prateleirasMap;
+
+  Future deleteShelve(String nome, String id) {
+    return familias
+        .doc(getIt<FamiliaService>().familia.id)
+        .collection(prateleiras_colecao)
+        .doc(id)
+        .delete()
+        .then((value) => "A prateleira $nome foi removida")
+        .catchError(
+            (error) => "Oops, parece que não deu pra remover:\n $error");
+  }
 }

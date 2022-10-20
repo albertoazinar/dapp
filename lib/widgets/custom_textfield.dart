@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatefulWidget {
   String? validatorText, hintText, label;
   void Function(String value)? onChange;
-  String Function(String? value)? validator;
-  bool? isPasswordField, isOptional;
+  bool? isPasswordField, isOptional, validator;
   TextInputType? inputType;
   TextEditingController? controller;
 
@@ -16,7 +15,7 @@ class CustomTextField extends StatefulWidget {
       this.isOptional = true,
       this.inputType,
       this.controller,
-      this.validator,
+      this.validator = false,
       this.label});
 
   @override
@@ -51,10 +50,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
               borderRadius: BorderRadius.circular(10)),
           child: TextFormField(
             obscureText: widget.isPasswordField! ? isObscureText : false,
-            validator: widget.validator ??
-                (val) {
-                  return val!.isEmpty ? widget.validatorText! : null;
-                },
+            validator: widget.validator!
+                ? (val) {
+                    return widget.validatorText;
+                  }
+                : (val) {
+                    return val!.isEmpty ? widget.validatorText! : null;
+                  },
             keyboardType: widget.inputType,
             style: TextStyle(color: Colors.blueGrey),
             controller: widget.controller,

@@ -113,16 +113,23 @@ class _ProductsPageState extends State<ProductsPage> {
                                 Produto produto =
                                     Produto.fromJson(_produtosMap);
                                 produto.setId(document.id);
-
-                                int percent = ((produto.disponivel * 100) /
-                                        produto.quantidade)
-                                    .round();
-                                if (percent <=
-                                    getIt<FamiliaService>()
-                                        .familia
-                                        .qntdMinima) {
-                                  getIt<ListaComprasController>()
-                                      .addProductItem(produto);
+                                if (produto.qntdMinima == null) {
+                                  int percent = ((produto.disponivel * 100) /
+                                          produto.quantidade)
+                                      .round();
+                                  if (percent <=
+                                      getIt<FamiliaService>()
+                                          .familia
+                                          .qntdMinima) {
+                                    getIt<ListaComprasController>()
+                                        .addProductItem(produto);
+                                  }
+                                } else {
+                                  if (produto.qntdMinima >=
+                                      produto.disponivel) {
+                                    getIt<ListaComprasController>()
+                                        .addProductItem(produto);
+                                  }
                                 }
 
                                 // log(getIt<ProdutosServices>()

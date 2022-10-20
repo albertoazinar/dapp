@@ -226,7 +226,7 @@ class _SingleProductPageState extends State<SingleProductPage> {
                           var newQntd = widget.produto.disponivel + 1;
                           setState(() {
                             _isToggled = true;
-                            widget.produto.setDisponivel(newQntd);
+                            widget.produto.setDisponivel(newQntd.toDouble());
                             if (percent >= 100) {
                               _isTotalToggled = true;
                               widget.produto.setQuantidade(newQntd);

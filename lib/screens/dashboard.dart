@@ -10,6 +10,7 @@ import 'package:despensa/utils/constantes.dart';
 import 'package:despensa/utils/sharedPreferences.dart';
 import 'package:despensa/widgets/add_shelve_dialog.dart';
 import 'package:despensa/widgets/no_data.dart';
+import 'package:despensa/widgets/remove_shelve_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:speed_dial_fab/speed_dial_fab.dart';
 
@@ -170,19 +171,43 @@ class _DashboardState extends State<Dashboard> {
                                         .addPrateleirasTemp(
                                             shelve.nome, document.id);
 
-                                    return new ListTile(
-                                      title: new Text(
-                                        shelve.nome,
-                                        style: TextStyle(
-                                            fontSize: 20, color: Colors.black),
+                                    return Dismissible(
+                                      key: Key(document.id),
+                                      direction: DismissDirection.endToStart,
+                                      background: Container(
+                                        color: Colors.redAccent,
                                       ),
-                                      leading: Icon(Icons.amp_stories_outlined),
-                                      subtitle: Divider(
-                                        thickness: 2,
+                                      onDismissed: (direction) {
+                                        setState(() {
+                                          getIt<PrateleiraService>()
+                                              .deleteShelve(
+                                                  shelve.nome, document.id);
+                                        });
+                                      },
+                                      confirmDismiss: (direction) => showDialog(
+                                          context: context,
+                                          barrierDismissible: true,
+                                          builder: (BuildContext context) {
+                                            return RemoveShelveDialog(
+                                              width: widthScreen(context),
+                                            );
+                                          }),
+                                      child: new ListTile(
+                                        title: new Text(
+                                          shelve.nome,
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black),
+                                        ),
+                                        leading:
+                                            Icon(Icons.amp_stories_outlined),
+                                        subtitle: Divider(
+                                          thickness: 2,
+                                        ),
+                                        onTap: () => Navigator.pushNamed(
+                                            context, produtos_screen,
+                                            arguments: shelve.nome),
                                       ),
-                                      onTap: () => Navigator.pushNamed(
-                                          context, produtos_screen,
-                                          arguments: shelve.nome),
                                     );
                                   }).toList(),
                                 );

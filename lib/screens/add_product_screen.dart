@@ -24,6 +24,7 @@ class _AddProductPageState extends State<AddProductPage> {
   TextEditingController desController = TextEditingController();
   TextEditingController qntdController = TextEditingController();
   TextEditingController unidController = TextEditingController();
+  TextEditingController qntdMinimaController = TextEditingController();
   TextEditingController priceController = TextEditingController();
 
   late ProdutosServices produtosServices;
@@ -72,7 +73,11 @@ class _AddProductPageState extends State<AddProductPage> {
                   controller: qntdController,
                   isOptional: false,
                   inputType: TextInputType.number,
-                  onChange: (val) => produto.setQuantidade(int.parse(val))),
+                  onChange: (val) {
+                    qntdMinimaController.text = (int.parse(val) / 2).toString();
+                    produto.setQuantidade(double.parse(val));
+                    produto.setQntdMinima(double.parse(val) / 2);
+                  }),
               CustomTextField(
                   label: 'Unidade',
                   validatorText: "A unidade não pode estar vazia",
@@ -80,6 +85,14 @@ class _AddProductPageState extends State<AddProductPage> {
                   isOptional: false,
                   controller: unidController,
                   onChange: (val) => produto.setUnidade(val)),
+              CustomTextField(
+                  label: 'Quantidade Mínima',
+                  validatorText: "A quantidade mínima não pode estar vazia",
+                  hintText: "Quantidade a qual se deve informar re-stock",
+                  inputType: TextInputType.number,
+                  isOptional: false,
+                  controller: qntdMinimaController,
+                  onChange: (val) => produto.setQntdMinima(double.parse(val))),
               CustomTextField(
                   label: 'Preço unitário (Estimativa)',
                   validatorText: "Please insert a valid text",
@@ -113,6 +126,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       produto.setDisponivel(produto.quantidade);
+                      produto.setQntdMinima(produto.qntdMinima);
                       produto.setNome(produto.nome.capitalize());
                       if (produto.pUnit == null) produto.setPunit(0);
                       produtosServices = ProdutosServices(
@@ -147,6 +161,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       nameController.text = '';
                       desController.text = '';
                       qntdController.text = '';
+                      qntdMinimaController.text = '';
                       unidController.text = '';
                     }
                   },

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:despensa/models/Produto.dart';
 import 'package:despensa/screens/single_product_screen.dart';
 import 'package:despensa/services/ListaComprasController.dart';
@@ -41,8 +43,10 @@ class _ListaComprasScreenState extends State<ListaComprasScreen> {
   Widget build(BuildContext context) {
     double total = 0;
     for (Produto prod in items) {
-      int qntd = prod.quantidade - prod.disponivel;
+      double qntd = prod.quantidade - prod.disponivel;
       double subtotal = 0;
+      log('lista_compras_screen.dart::: prod: ${prod.toJson()}');
+
       if (prod.pUnit != null) {
         // print(total);
         subtotal = prod.pUnit * qntd;
@@ -110,7 +114,7 @@ class _ListaComprasScreenState extends State<ListaComprasScreen> {
                   ),
                   itemBuilder: (context, int index) {
                     Produto produto = items[index];
-                    int qntd = produto.quantidade - produto.disponivel;
+                    double qntd = produto.quantidade - produto.disponivel;
                     produtosServices = ProdutosServices(
                         getIt<PrateleiraService>()
                             .prateleirasMap[produto.prateleira]);
@@ -145,7 +149,8 @@ class _ListaComprasScreenState extends State<ListaComprasScreen> {
                             child: Text('Repor'),
                             onPressed: () {
                               setState(() {
-                                produto.setDisponivel(produto.quantidade);
+                                produto.setDisponivel(
+                                    produto.quantidade.toDouble());
                                 produtosServices
                                     .updateProduto(produto)
                                     .whenComplete(() {})

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:despensa/models/Produto.dart';
 import 'package:despensa/screens/single_product_screen.dart';
 import 'package:despensa/services/prateleira_service.dart';
@@ -36,12 +38,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   late ProdutosServices produtosServices;
 
+  TextEditingController qntdMinimaController = TextEditingController();
+
   @override
   void initState() {
     nameController.text = widget.produto.nome;
     desController.text = widget.produto.descricao;
     qntdController.text = widget.produto.quantidade.toString();
     unidController.text = widget.produto.unidade;
+    qntdMinimaController.text = widget.produto.qntdMinima.toString();
     disponivelController.text = widget.produto.disponivel.toString();
     priceController.text = (widget.produto.pUnit != null
         ? widget.produto.pUnit.toString().replaceAll('.0', '')
@@ -88,8 +93,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   controller: qntdController,
                   inputType: TextInputType.number,
                   onChange: (val) {
-                    if (val.isNotEmpty)
-                      widget.produto.setQuantidade(int.parse(val));
+                    if (val.isNotEmpty) {
+                      widget.produto.setQuantidade(double.parse(val));
+                      qntdMinimaController.text =
+                          (double.parse(val) / 2).toString();
+                      widget.produto.setQntdMinima(double.parse(val) / 2);
+                    }
                   }),
               CustomTextField(
                 label: 'Quantidade do Produto (Disponível)',
@@ -97,14 +106,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 hintText: "Quantidade do Produto Disponível",
                 controller: disponivelController,
                 inputType: TextInputType.number,
-                validator: (val) {
-                  if (val!.isNotEmpty) {
-                    if (int.parse(disponivelController.text) >
-                        int.parse(qntdController.text))
-                      return 'A quantidade disponível não pode ser maior que o total';
-                  }
-                  return '';
-                }, onChange: (String value) {  },
+                validator: double.parse(disponivelController.text) >
+                    double.parse(qntdController.text),
+                onChange: (String value) {},
               ),
               CustomTextField(
                   label: 'Unidade (Ex: Kg, Pacote...)',
@@ -114,6 +118,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   onChange: (val) {
                     if (val.isNotEmpty) widget.produto.setUnidade(val);
                   }),
+              CustomTextField(
+                  label: 'Quantidade Mínima',
+                  validatorText: "A quantidade mínima não pode estar vazia",
+                  hintText: "Quantidade a qual se deve informar re-stock",
+                  inputType: TextInputType.number,
+                  isOptional: false,
+                  controller: qntdMinimaController,
+                  onChange: (val) =>
+                      widget.produto.setQntdMinima(double.parse(val))),
               CustomTextField(
                   label: 'Preço unitário (Estimativa)',
                   validatorText: "Please insert a valid text",
@@ -337,8 +350,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           setState(() {
+                            log('edit_product_screen.dart::: ${widget.produto.toJson()}');
                             widget.produto.setDisponivel(
-                                int.parse(disponivelController.text));
+                                double.parse(disponivelController.text));
                             produtosServices = ProdutosServices(
                                 getIt<PrateleiraService>()
                                     .prateleirasMap[widget.produto.prateleira]);
@@ -346,6 +360,25 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 .updateProduto(widget.produto)
                                 .whenComplete(() {})
                                 .then((value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        value,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 14.0,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                  duration: Duration(seconds: 3),
+                                  // backgroundColor: Colors.blue,
+                                ),
+                              );
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -353,6 +386,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                           SingleProductPage(widget.produto)));
                             });
                           });
+                        } else {
+                          log('yay!');
                         }
                       },
                       child: Text(

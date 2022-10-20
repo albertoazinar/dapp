@@ -1,14 +1,12 @@
 import 'package:despensa/models/Prateleira.dart';
-import 'package:despensa/services/prateleira_service.dart';
-import 'package:despensa/utils/GetIt.dart';
 import 'package:flutter/material.dart';
 
-class AddShelve extends StatelessWidget {
+class RemoveShelveDialog extends StatelessWidget {
   double width;
   Shelve prateleira = Shelve.empty();
   TextEditingController minionNameController = TextEditingController();
   late GlobalKey<ScaffoldState> scaffoldKey;
-  AddShelve({
+  RemoveShelveDialog({
     required this.width,
   });
 
@@ -19,14 +17,11 @@ class AddShelve extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: Center(child: Text('ADICONAR PRATELEIRA')),
+        title: Center(child: Text('REMOVER PRATELEIRA')),
         content: Container(
             width: width,
             height: 100,
-            child: TextField(
-              onChanged: (value) => prateleira.setNome(value),
-              decoration: InputDecoration(hintText: 'Nome da Prateleira'),
-            )),
+            child: Text('Realmente deseja remover esta prateleira?')),
         actions: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -42,40 +37,18 @@ class AddShelve extends StatelessWidget {
                     children: [
                       ElevatedButton(
                           style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all<Color>(Colors.red),
                               shape: MaterialStateProperty.all<OutlinedBorder>(
                                   RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ))),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ))),
                           child: Text(
-                            'ADICIONAR',
+                            'REMOVER',
                             style: TextStyle(color: Colors.black),
                           ),
-                          onPressed: () async {
-                            getIt<PrateleiraService>()
-                                .addShelve(prateleira)
-                                .whenComplete(() {})
-                                .then((value) {
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        value,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 14.0,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ],
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  // backgroundColor: Colors.blue,
-                                ),
-                              );
-                            });
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
                           }),
                       SizedBox(
                         width: width / 40,
@@ -92,7 +65,9 @@ class AddShelve extends StatelessWidget {
                                   RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(10)))),
-                          onPressed: () => Navigator.pop(context)),
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          }),
                     ],
                   ),
                 ),

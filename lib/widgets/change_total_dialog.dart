@@ -18,7 +18,7 @@ class _ChangeTotalState extends State<ChangeTotal> {
   TextEditingController minionNameController = TextEditingController();
   GlobalKey<ScaffoldState>? scaffoldKey;
   String _errMsg = '';
-  int _newTotal = 0;
+  double _newTotal = 0;
   ProdutosServices? produtosServices;
 
   @override
@@ -42,7 +42,7 @@ class _ChangeTotalState extends State<ChangeTotal> {
                 width: widget.width,
                 height: 100,
                 child: TextField(
-                  onChanged: (value) => _newTotal = int.parse(value),
+                  onChanged: (value) => _newTotal = double.parse(value),
                   decoration: InputDecoration(hintText: 'Novo Total'),
                 )),
           ],
@@ -96,7 +96,7 @@ class _ChangeTotalState extends State<ChangeTotal> {
                           ),
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
-                                  Colors.white10),
+                                  Colors.white),
                               shape: MaterialStateProperty.all<OutlinedBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius:
