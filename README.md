@@ -41,7 +41,7 @@ Find screenshots below
 - [x] Edit overall details of a product
 - [x] Delete product
 - [x] Rules to put in a "to buy list"
-- [x] Estimated prices and "to buy list" with estimated value to spend
+- [x] Estimated prices and "to buy list" with estimated value to be spent
 - [ ] Sub-shelves to a product that can have multiple brands/types
 - [x] Share list in 3rd party apps
 - [x] Allow user to automatically restock a product from "to buy list"
