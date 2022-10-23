@@ -33,7 +33,7 @@ class UserState implements SharedUserState {
   void delete() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove(key);
-    print(value);
+    // print(value);
   }
 
   static void saveTheme(String key, dynamic value) async {

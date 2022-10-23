@@ -1,10 +1,9 @@
-import 'package:despensa/models/Prateleira.dart';
 import 'package:flutter/material.dart';
 
 class Familia with ChangeNotifier {
   String _id = '';
   String? _nome, _owner;
-  List<Shelve>? _prateleiras = [];
+  List<dynamic>? _prateleiras = [];
   int? _qntdMinima = 0;
 
   Familia(
@@ -32,9 +31,9 @@ class Familia with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Shelve> get prateleiras => _prateleiras!;
+  List<dynamic> get prateleiras => _prateleiras!;
 
-  setPrateleiras(List<Shelve> value) {
+  setPrateleiras(List<dynamic> value) {
     _prateleiras = value;
     notifyListeners();
   }
@@ -71,7 +70,7 @@ class Familia with ChangeNotifier {
     data["nome"] = this._nome;
     data["owner"] = this._owner;
     data["prateleiras"] = this._prateleiras;
-    data["quantidadeMinima"] = this._prateleiras;
+    data["quantidadeMinima"] = this._qntdMinima;
 
     return data;
   }
