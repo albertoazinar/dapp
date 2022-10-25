@@ -110,7 +110,13 @@ class _AddProductPageState extends State<AddProductPage> {
                 label: 'Prateleira',
                 currentSelectedValue: "Escolha a Prateleira",
                 width: widthScreen(context),
-                onChange: (value) => produto.setPrateleira(value),
+                validacao: (value){
+                  if (value == null || value.isEmpty) {
+                      return 'Seleccione uma prateleira';
+                    }
+                    return null;
+                  },
+                onChange: (value) => produto.setPrateleira(value)
               ),
               Container(
                 alignment: Alignment.bottomRight,
