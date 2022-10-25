@@ -41,7 +41,7 @@ Find screenshots below
 - [x] Edit overall details of a product
 - [x] Delete product
 - [x] Rules to put in a "to buy list"
-- [x] Estimated prices and "to buy list" with estimated value to spend
+- [x] Estimated prices and "to buy list" with estimated value to be spent
 - [ ] Sub-shelves to a product that can have multiple brands/types
 - [x] Share list in 3rd party apps
 - [x] Allow user to automatically restock a product from "to buy list"
@@ -59,7 +59,7 @@ Find screenshots below
 - [ ] Create a dashboard to track expenses bases on the saved lists
 - [ ] Make it possible to submit the product expiration date when purchasing.
 - [ ] create an alert for products that have already been purchased and that the expiration date is about to expire.
- 
+- [ ] disable <b>add product</b> button if no shelve have been created.
 
 
 

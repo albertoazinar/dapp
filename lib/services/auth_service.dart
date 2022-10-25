@@ -80,11 +80,13 @@ class AuthService with ChangeNotifier {
           .whenComplete(() {})
           .then((value) {
         FamiliaService familiaService = FamiliaService();
-
+        log('auth_service.dart::: about to create user');
         _userId = value.user!.uid;
         familiaService.createUser(_userId);
         print(_userId);
         message = 'Login Efectuado com Sucesso\nParabéns, ganhou acesso à Dapp';
+        log('auth_service.dart::: $message');
+
         notifyListeners();
         return message;
       });
