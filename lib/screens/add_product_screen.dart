@@ -111,7 +111,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 currentSelectedValue: "Escolha a Prateleira",
                 width: widthScreen(context),
                 validacao: (value){
-                  if (value == null || value.isEmpty) {
+                  if (value == null || value.isEmpty || produto.prateleira == null) {
                       return 'Seleccione uma prateleira';
                     }
                     return null;
